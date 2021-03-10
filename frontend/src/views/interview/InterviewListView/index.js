@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const InterviewListView = () => {
+const CustomerListView = () => {
   const classes = useStyles();
   const [customers] = useState(data);
 
@@ -37,4 +37,4 @@ const InterviewListView = () => {
   );
 };
 
-export default InterviewListView;
+export default CustomerListView;

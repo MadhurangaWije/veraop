@@ -38,6 +38,7 @@ const Toolbar = ({ className, ...rest }) => {
         <Button
           color="primary"
           variant="contained"
+          href="/app/scheduleInterview"
         >
           Schedule Interview
         </Button>
