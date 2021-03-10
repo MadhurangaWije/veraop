@@ -10,6 +10,7 @@ import NotFoundView from 'src/views/errors/NotFoundView';
 import ProductListView from 'src/views/product/ProductListView';
 import RegisterView from 'src/views/auth/RegisterView';
 import SettingsView from 'src/views/settings/SettingsView';
+import InterviewListView from 'src/views/interview/InterviewListView';
 
 const routes = [
   {
@@ -21,6 +22,7 @@ const routes = [
       { path: 'dashboard', element: <DashboardView /> },
       { path: 'products', element: <ProductListView /> },
       { path: 'settings', element: <SettingsView /> },
+      { path: 'interview', element: <InterviewListView /> },
       { path: '*', element: <Navigate to="/404" /> }
     ]
   },
