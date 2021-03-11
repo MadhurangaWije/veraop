@@ -47,9 +47,9 @@ const items = [
     title: 'Candidates'
   },
   {
-    href: '/app/customers',
+    href: '/app/interview',
     icon: FindInPageOutlinedIcon,
-    title: 'Interviews'
+    title: 'Interview Schedualing'
   },
   {
     href: '/app/customers',
