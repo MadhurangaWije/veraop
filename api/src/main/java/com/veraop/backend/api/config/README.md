@@ -1,0 +1,1 @@
+## class which will read from property files
