@@ -8,7 +8,8 @@ const Logo = (props) => {
         src="/static/logo.svg"
         {...props}
       />
-      <h1 style={{ display: 'inline', color: 'white' }}>VERAOP</h1>
+      <h1 style={{ display: 'inline', color: 'white' }}>
+        VERAOP</h1>
     </>
   );
 };
