@@ -57,6 +57,11 @@ const items = [
     title: 'Requests'
   },
   {
+    href: '/app/feedback',
+    icon: AssignmentIndOutlinedIcon,
+    title: 'Feedback'
+  },
+  {
     href: '/app/customers',
     icon: AttachFileOutlinedIcon,
     title: 'Onboarding'
@@ -218,7 +223,7 @@ NavBar.propTypes = {
 };
 
 NavBar.defaultProps = {
-  onMobileClose: () => {},
+  onMobileClose: () => { },
   openMobile: false
 };
 
