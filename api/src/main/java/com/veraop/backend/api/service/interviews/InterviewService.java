@@ -54,4 +54,20 @@ public class InterviewService {
         return ResponseEntity.status(HttpStatus.OK).body(scheduledInterviews);
 
     }
+
+    public ResponseEntity<List<InterviewEntity>> getScheduledInterviews() {
+
+        List<InterviewEntity> scheduledInterviews = (List<InterviewEntity>) interviewEntityRepository.findByIsCompleted(0);
+
+        return ResponseEntity.status(HttpStatus.OK).body(scheduledInterviews);
+
+    }
+
+    public ResponseEntity<List<InterviewEntity>> getCompletedInterviews() {
+
+        List<InterviewEntity> scheduledInterviews = (List<InterviewEntity>) interviewEntityRepository.findByIsCompleted(1);
+
+        return ResponseEntity.status(HttpStatus.OK).body(scheduledInterviews);
+
+    }
 }

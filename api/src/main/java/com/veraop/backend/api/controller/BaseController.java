@@ -33,13 +33,23 @@ public class BaseController {
         dataService.saveData();
     }
 
-    @GetMapping("/getScheduledInterviews")
-    ResponseEntity<List<InterviewEntity>>  getScheduledInterviews(){
+    @GetMapping("/getAllInterviews")
+    ResponseEntity<List<InterviewEntity>>  getAllInterviews(){
         return interviewService.getAllInterviewSchedules();
     }
 
+    @GetMapping("/getScheduledInterviews")
+    ResponseEntity<List<InterviewEntity>>  getScheduledInterviews(){
+        return interviewService.getScheduledInterviews();
+    }
+
+    @GetMapping("/getCompletedInterviews")
+    ResponseEntity<List<InterviewEntity>>  getCompletedInterviews(){
+        return interviewService.getCompletedInterviews();
+    }
+
     @PostMapping("/addScheduledInterviews")
-    public ResponseEntity<InterviewEntity> addAlertEmailContent(@RequestHeader Map<String, String> headers,
+    public ResponseEntity<InterviewEntity> addInterview(@RequestHeader Map<String, String> headers,
                                                              @RequestBody InterviewDto request) throws ParseException {
         return interviewService.saveData(
                 request.getCandidateName(),

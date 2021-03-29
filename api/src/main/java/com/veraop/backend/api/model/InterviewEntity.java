@@ -24,6 +24,8 @@ public class InterviewEntity {
     private String position;
     private String division;
     private Date scheduledDate;
+    private int isCompleted;
+    private float result;
 
     public InterviewEntity(long id,String candidateName,String candidateId,String position, String division, Date scheduledDate){
         this.id = id;
@@ -32,6 +34,8 @@ public class InterviewEntity {
         this.position = position;
         this.division = division;
         this.scheduledDate = scheduledDate;
+        this.isCompleted = 0;
+        this.result = 0.0F;
     }
 
     public InterviewEntity(){
