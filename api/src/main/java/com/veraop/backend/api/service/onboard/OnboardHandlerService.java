@@ -26,8 +26,8 @@ public class OnboardHandlerService {
 
     public void initiateOnboard(OnboardRequestDataDTO request) throws IOException {
 
-//        BankDetailDTO bankDetails = textService.identifyBankDetails(request.getBankDetailImage());
-//        bankDetails.setUserId(request.getUserId());
+        BankDetailDTO bankDetails = textService.identifyBankDetails(request.getBankDetailImage());
+        bankDetails.setUserId(request.getUserId());
 
 //        BankDetailDTO bankDetails = new BankDetailDTO();
 //        bankDetails.setBank("People's Bank");
@@ -36,9 +36,9 @@ public class OnboardHandlerService {
 //        bankDetails.setAccountNo("Account No");
 //        bankDetails.setUserId(request.getUserId());
 
-//        database.saveOnboardDetails(bankDetails, request);
-//
-//        s3Client.uploadFiles(request.getUserId(), request.getNicImage(), request.getBankDetailImage());
+        database.saveOnboardDetails(bankDetails, request);
+
+        s3Client.uploadFiles(request.getUserId(), request.getNicImage(), request.getBankDetailImage());
 
         emailClient.sendEmail(request);
     }
