@@ -13,6 +13,7 @@ import SettingsView from 'src/views/settings/SettingsView';
 import InterviewListView from 'src/views/interview/InterviewListView';
 import ScheduleInterview from 'src/views/interview/Schedule';
 import InterviewFeedback from 'src/views/feedback';
+import Onboard from 'src/views/onboard/OnboardView';
 
 const routes = [
   {
@@ -37,6 +38,7 @@ const routes = [
       { path: 'login', element: <LoginView /> },
       { path: 'register', element: <RegisterView /> },
       { path: '404', element: <NotFoundView /> },
+      { path: 'onboard/:id', element: <Onboard /> },
       { path: '/', element: <Navigate to="/app/dashboard" /> },
       { path: '*', element: <Navigate to="/404" /> }
     ]
