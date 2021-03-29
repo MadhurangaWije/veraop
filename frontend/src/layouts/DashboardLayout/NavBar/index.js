@@ -49,17 +49,17 @@ const items = [
   {
     href: '/app/interview',
     icon: FindInPageOutlinedIcon,
-    title: 'Interview Schedualing'
+    title: 'Interview Scheduling'
+  },
+  {
+    href: '/app/feedback',
+    icon: AssignmentIndOutlinedIcon,
+    title: 'Interview Feedback'
   },
   {
     href: '/app/customers',
     icon: AssignmentIndOutlinedIcon,
     title: 'Requests'
-  },
-  {
-    href: '/app/feedback',
-    icon: AssignmentIndOutlinedIcon,
-    title: 'Feedback'
   },
   {
     href: '/app/customers',

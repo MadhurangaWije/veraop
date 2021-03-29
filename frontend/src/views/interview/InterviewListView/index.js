@@ -25,20 +25,19 @@ class InterviewList extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      customers: []
+      candidates: []
     }
   }
   componentDidMount() {
-    console.log('hiiiiiiiiiii loading')
-    this.fetchCustomers();
-    this.timer = setInterval(() => this.fetchCustomers(), 5000);
+    this.fetchCandidates();
+    this.timer = setInterval(() => this.fetchCandidates(), 5000);
   }
 
-  fetchCustomers = (() => {
+  fetchCandidates = (() => {
     fetch(GET_INTERVIEWS_URL)
       .then((response) => response.json())
       .then((result) => {
-        this.setState({ customers: this.state.customers });
+        this.setState({ candidates: this.state.candidates });
       }).catch((e) => {
         console.log(e);
       });
@@ -53,7 +52,7 @@ class InterviewList extends Component {
         <Container maxWidth={false}>
           <Toolbar />
           <Box mt={3}>
-            <Results customers={this.state.customers} />
+            <Results customers={this.state.candidates} />
           </Box>
         </Container>
       </Page>
