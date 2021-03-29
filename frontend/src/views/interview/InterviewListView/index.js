@@ -7,7 +7,6 @@ import {
 import Page from 'src/components/Page';
 import Results from './Results';
 import Toolbar from './Toolbar';
-import data from './data';
 
 const styles = (theme) => ({
   root: {
@@ -18,7 +17,7 @@ const styles = (theme) => ({
   },
 });
 
-const GET_INTERVIEWS_URL = 'http://demo3190284.mockable.io/getInterviews'
+const GET_INTERVIEWS_URL = 'http://localhost:9090/getScheduledInterviews'
 
 class InterviewList extends Component {
 
@@ -37,7 +36,7 @@ class InterviewList extends Component {
     fetch(GET_INTERVIEWS_URL)
       .then((response) => response.json())
       .then((result) => {
-        this.setState({ candidates: this.state.candidates });
+        this.setState({ candidates: result });
       }).catch((e) => {
         console.log(e);
       });
