@@ -20,6 +20,7 @@ public class InterviewEntity {
     private long id;
 
     private String candidateName;
+    private String candidateEmailAddress;
     private String candidateId;
     private String position;
     private String division;
@@ -27,9 +28,11 @@ public class InterviewEntity {
     private int isCompleted;
     private float result;
 
-    public InterviewEntity(long id,String candidateName,String candidateId,String position, String division, Date scheduledDate){
+    public InterviewEntity(long id, String candidateName, String candidateEmailAddress, String candidateId,
+                           String position, String division, Date scheduledDate) {
         this.id = id;
         this.candidateName = candidateName;
+        this.candidateEmailAddress = candidateEmailAddress;
         this.candidateId = candidateId;
         this.position = position;
         this.division = division;
@@ -38,16 +41,15 @@ public class InterviewEntity {
         this.result = 0.0F;
     }
 
-    public InterviewEntity(){
+    public InterviewEntity() {
 
     }
 
-    public InterviewDto toDto(){
+    public InterviewDto toDto() {
         InterviewDto interviewDto = new InterviewDto();
         BeanUtils.copyProperties(this, interviewDto);
         return interviewDto;
     }
-
 
 
 }

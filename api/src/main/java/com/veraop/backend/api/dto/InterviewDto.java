@@ -16,10 +16,10 @@ public class InterviewDto {
    // @JsonProperty(value = "candidateName")
     private String candidateName;
 
+    private String candidateEmailAddress;
 
     //@JsonProperty(value = "position")
     private String position;
-
 
     //@JsonProperty(value = "division")
     private String division;
@@ -33,6 +33,10 @@ public class InterviewDto {
 
    // @JsonProperty(value = "result")
     private float result;
+
+    private String candidateId;
+
+
 
     public InterviewEntity toInterviewEntity(){
         InterviewEntity interviewEntity = new InterviewEntity();
