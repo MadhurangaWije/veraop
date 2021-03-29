@@ -109,7 +109,7 @@ const Onboard = () => {
               <Grid item lg={12} md={12} xs={12}>
                 <TextField
                   fullWidth
-                  helperText="Enter your recidential address"
+                  helperText="Enter your residential address"
                   label="Recidential Address"
                   name="recidentialAddress"
                   required
