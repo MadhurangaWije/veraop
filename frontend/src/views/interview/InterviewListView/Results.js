@@ -27,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Results = ({ className, customers, ...rest }) => {
+
   const classes = useStyles();
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [limit, setLimit] = useState(10);
@@ -72,6 +73,7 @@ const Results = ({ className, customers, ...rest }) => {
     setPage(newPage);
   };
 
+
   return (
     <Card
       className={clsx(classes.root, className)}
@@ -103,15 +105,13 @@ const Results = ({ className, customers, ...rest }) => {
                   Team
                 </TableCell>
                 <TableCell>
-                  Schedualed Date
-                </TableCell>
-                <TableCell>
                   Schedualed Time
                 </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {customers.slice(0, limit).map((customer) => (
+              {customers.map((customer) => (
+
                 <TableRow
                   hover
                   key={customer.id}
@@ -129,36 +129,25 @@ const Results = ({ className, customers, ...rest }) => {
                       alignItems="center"
                       display="flex"
                     >
-                      {/* <Avatar
-                        className={classes.avatar}
-                        src={customer.avatarUrl}
-                      >
-                        {getInitials(customer.name)}
-                      </Avatar> */}
+
                       <Typography
                         color="textPrimary"
                         variant="body1"
                       >
-                        {customer.name}
+                        {customer.candidateName}
                       </Typography>
                     </Box>
                   </TableCell>
                   <TableCell>
-                    {customer.role}
+                    {customer.position}
                   </TableCell>
                   <TableCell>
-                    {customer.team}
-                  </TableCell>
-                  {/* <TableCell>
-                    {`${customer.address.city},
-                    ${customer.address.state}, ${customer.address.country}`}
-                  </TableCell> */}
-                  <TableCell>
-                    {moment(customer.createdAt).format('DD/MM/YYYY')}
+                    {customer.division}
                   </TableCell>
                   <TableCell>
-                    {customer.schedualedTime}
+                    {moment(customer.scheduledDate).format('YYYY-MM-DD HH:mm:ss')}
                   </TableCell>
+
                 </TableRow>
               ))}
             </TableBody>
