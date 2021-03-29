@@ -1,8 +1,8 @@
 package com.veraop.backend.api.service.onboard;
 
-import com.veraop.backend.api.model.BankDetailDTO;
+import com.veraop.backend.api.dto.BankDetailDTO;
 import com.veraop.backend.api.model.OnboardDetail;
-import com.veraop.backend.api.model.OnboardRequestDataDTO;
+import com.veraop.backend.api.dto.OnboardRequestDataDTO;
 import com.veraop.backend.api.repo.OnboardDetailRepository;
 import org.springframework.stereotype.Service;
 

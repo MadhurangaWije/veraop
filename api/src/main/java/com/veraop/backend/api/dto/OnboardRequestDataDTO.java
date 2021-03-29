@@ -1,4 +1,4 @@
-package com.veraop.backend.api.model;
+package com.veraop.backend.api.dto;
 
 import org.springframework.web.multipart.MultipartFile;
 

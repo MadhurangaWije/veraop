@@ -1,4 +1,4 @@
-package com.veraop.backend.api.model;
+package com.veraop.backend.api.dto;
 
 /**
  * This is a DTO class to hold and transfer data related to bank details of a given user denoted by userId.

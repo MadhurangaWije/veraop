@@ -1,7 +1,7 @@
 package com.veraop.backend.api.service.onboard;
 
-import com.veraop.backend.api.model.BankDetailDTO;
-import com.veraop.backend.api.model.OnboardRequestDataDTO;
+import com.veraop.backend.api.dto.BankDetailDTO;
+import com.veraop.backend.api.dto.OnboardRequestDataDTO;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import software.amazon.awssdk.core.SdkBytes;

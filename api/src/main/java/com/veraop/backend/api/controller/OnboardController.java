@@ -1,9 +1,8 @@
 package com.veraop.backend.api.controller;
 
 import com.veraop.backend.api.model.CommonMessage;
-import com.veraop.backend.api.model.OnboardRequestDataDTO;
+import com.veraop.backend.api.dto.OnboardRequestDataDTO;
 import com.veraop.backend.api.service.onboard.OnboardHandlerService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;

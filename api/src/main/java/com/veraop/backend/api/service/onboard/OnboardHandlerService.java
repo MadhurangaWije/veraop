@@ -1,8 +1,7 @@
 package com.veraop.backend.api.service.onboard;
 
-import com.veraop.backend.api.model.BankDetailDTO;
-import com.veraop.backend.api.model.OnboardRequestDataDTO;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.veraop.backend.api.dto.BankDetailDTO;
+import com.veraop.backend.api.dto.OnboardRequestDataDTO;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
