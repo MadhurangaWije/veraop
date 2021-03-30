@@ -27,6 +27,7 @@ public class InterviewEntity {
     private Date scheduledDate;
     private int isCompleted;
     private float result;
+    private int isSelected;
 
     public InterviewEntity(long id, String candidateName, String candidateEmailAddress, String candidateId,
                            String position, String division, Date scheduledDate) {
@@ -39,6 +40,7 @@ public class InterviewEntity {
         this.scheduledDate = scheduledDate;
         this.isCompleted = 0;
         this.result = 0.0F;
+        this.isSelected = 0;
     }
 
     public InterviewEntity() {
