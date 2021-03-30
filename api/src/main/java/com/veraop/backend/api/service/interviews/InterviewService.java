@@ -85,7 +85,8 @@ public class InterviewService {
 
     public ResponseEntity<List<InterviewEntity>> getCompletedInterviews() {
 
-        List<InterviewEntity> scheduledInterviews = (List<InterviewEntity>) interviewEntityRepository.findByIsCompleted(1);
+        List<InterviewEntity> scheduledInterviews =
+                (List<InterviewEntity>) interviewEntityRepository.findByIsCompletedAndIsSelected(1,0);
 
         return ResponseEntity.status(HttpStatus.OK).body(scheduledInterviews);
 
@@ -93,18 +94,22 @@ public class InterviewService {
 
     public ResponseEntity<CommonMessage> uploadInterviewVideo(InterviewReview reviewData) throws IOException {
 
-        s3Upload.uploadFile(reviewData.getCandidateId(), reviewData.getInterviewVideo());
+        if(reviewData.getInterviewVideo() != null){
+            s3Upload.uploadFile(reviewData.getCandidateId(), reviewData.getInterviewVideo());
+        }
 
         Optional<InterviewEntity> oldInterviewEntity = interviewEntityRepository.findByCandidateId(reviewData.getCandidateId());
 
         if (!oldInterviewEntity.isPresent()) {
-
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new CommonMessage("Invalid Candidate ID"));
         }
 
         //send candidate onboard interview
-        sendInterviewService.sendOnboardInvitation(oldInterviewEntity.get().getCandidateName(),
-                oldInterviewEntity.get().getCandidateEmailAddress(), oldInterviewEntity.get().getCandidateId());
+        if (reviewData.getSelected() == 1) {
+            sendInterviewService.sendOnboardInvitation(oldInterviewEntity.get().getCandidateName(),
+                    oldInterviewEntity.get().getCandidateEmailAddress(), oldInterviewEntity.get().getCandidateId());
+        }
+
 
         InterviewEntity newInterviewEntity = oldInterviewEntity.get();
         newInterviewEntity.setResult(reviewData.getResult());

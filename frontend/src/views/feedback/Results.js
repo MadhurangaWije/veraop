@@ -101,7 +101,7 @@ const Results = ({ className, customers, selectedFile, ...rest }) => {
         formData.append("result", values.result);
         formData.append("candidateId", candidateId);
         formData.append("interviewVideo", values.interviewVideo);
-        formData.append('selected', 0);
+        formData.append('selected', 2);
 
         axios.post(ADD_VIDEO_TO_S3, formData)
             .then((res) => {
