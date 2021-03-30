@@ -62,7 +62,7 @@ public class MeetingService
         String attendeeJoinToken = createAttendeeResult.getAttendee().getJoinToken();
 
 
-        return attendeeJoinToken;
+        return meetingID;
 
     }
 
