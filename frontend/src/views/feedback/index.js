@@ -18,7 +18,6 @@ const styles = (theme) => ({
     },
 });
 
-
 const GET_INTERVIEWS_URL = 'http://localhost:9090/getCompletedInterviews'
 
 class InterviewFeedback extends Component {
@@ -33,7 +32,6 @@ class InterviewFeedback extends Component {
     componentDidMount() {
         this.fetchCustomers();
     }
-
 
     fetchCustomers = (() => {
         fetch(GET_INTERVIEWS_URL)
