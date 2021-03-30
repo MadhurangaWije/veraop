@@ -51,7 +51,7 @@ public class BaseController {
     @PostMapping("/addScheduledInterviews")
     public ResponseEntity<InterviewEntity> addInterview(@RequestHeader Map<String, String> headers,
                                                              @RequestBody InterviewDto request) throws ParseException {
-        return interviewService.saveData(
+        return interviewService.createInterview(
                 request.getCandidateName(),
                 request.getCandidateEmailAddress(),
                 request.getPosition(),
