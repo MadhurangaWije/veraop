@@ -12,6 +12,7 @@ import RegisterView from 'src/views/auth/RegisterView';
 import SettingsView from 'src/views/settings/SettingsView';
 import InterviewListView from 'src/views/interview/InterviewListView';
 import ScheduleInterview from 'src/views/interview/Schedule';
+import InterviewFeedback from 'src/views/feedback';
 import Onboard from 'src/views/onboard/OnboardView';
 
 const routes = [
@@ -25,6 +26,7 @@ const routes = [
       { path: 'products', element: <ProductListView /> },
       { path: 'settings', element: <SettingsView /> },
       { path: 'interview', element: <InterviewListView /> },
+      { path: 'feedback', element: <InterviewFeedback /> },
       { path: 'scheduleInterview', element: <ScheduleInterview /> },
       { path: '*', element: <Navigate to="/404" /> }
     ]

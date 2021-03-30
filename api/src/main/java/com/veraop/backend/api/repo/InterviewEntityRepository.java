@@ -12,4 +12,6 @@ import java.util.Optional;
 public interface InterviewEntityRepository extends JpaRepository<InterviewEntity, Long> {
 
     List<InterviewEntity> findByIsCompleted(int isCompleted);
+
+    Optional<InterviewEntity> findByCandidateId(String candidateId);
 }

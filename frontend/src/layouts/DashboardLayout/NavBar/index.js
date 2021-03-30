@@ -49,7 +49,12 @@ const items = [
   {
     href: '/app/interview',
     icon: FindInPageOutlinedIcon,
-    title: 'Interview Schedualing'
+    title: 'Interview Scheduling'
+  },
+  {
+    href: '/app/feedback',
+    icon: AssignmentIndOutlinedIcon,
+    title: 'Interview Feedback'
   },
   {
     href: '/app/customers',
@@ -218,7 +223,7 @@ NavBar.propTypes = {
 };
 
 NavBar.defaultProps = {
-  onMobileClose: () => {},
+  onMobileClose: () => { },
   openMobile: false
 };
 
