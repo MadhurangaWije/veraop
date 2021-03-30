@@ -10,4 +10,5 @@ public class InterviewReview {
     private String candidateId;
     private MultipartFile interviewVideo;
     private float result;
+    private int selected;
 }

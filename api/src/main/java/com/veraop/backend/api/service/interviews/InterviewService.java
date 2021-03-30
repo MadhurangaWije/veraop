@@ -102,9 +102,14 @@ public class InterviewService {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new CommonMessage("Invalid Candidate ID"));
         }
 
+        //send candidate onboard interview
+        sendInterviewService.sendOnboardInvitation(oldInterviewEntity.get().getCandidateName(),
+                oldInterviewEntity.get().getCandidateEmailAddress(), oldInterviewEntity.get().getCandidateId());
+
         InterviewEntity newInterviewEntity = oldInterviewEntity.get();
         newInterviewEntity.setResult(reviewData.getResult());
         newInterviewEntity.setIsCompleted(1);
+        newInterviewEntity.setIsSelected(reviewData.getSelected());
 
         InterviewEntity updatedInterviewEntity = interviewEntityRepository.save(newInterviewEntity);
         return ResponseEntity.ok(new CommonMessage("Interview video uploaded to S3"));
