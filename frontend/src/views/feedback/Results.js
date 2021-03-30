@@ -18,7 +18,8 @@ import {
     Typography,
     makeStyles,
     TextField,
-    Tab
+    Tab,
+    Button
 } from '@material-ui/core';
 // import getInitials from 'src/utils/getInitials';
 
@@ -34,6 +35,11 @@ const Results = ({ className, customers, selectedFile, ...rest }) => {
     const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
     const [limit, setLimit] = useState(10);
     const [page, setPage] = useState(0);
+    const [values, setValues] = useState({
+        interviewVideo: null,
+        candidateId: null,
+        result: null,
+    });
 
     const handleSelectAll = (event) => {
         let newSelectedCustomerIds;
@@ -75,28 +81,21 @@ const Results = ({ className, customers, selectedFile, ...rest }) => {
         setPage(newPage);
     };
     const ADD_VIDEO_TO_S3 = 'http://localhost:9090/uploadInterview';
-    const Add_INTERVIEW_RESULT = 'http://localhost:9090/addResult';
+    // const Add_INTERVIEW_RESULT = 'http://localhost:9090/addResult';
 
 
-    const onFileChange = (event, id) => {
-        // Update the state
-        const selectedFile = event.target.files[0];
+
+    const AddResults = (candidateId) => {
         const formData = new FormData();
-        formData.append("interviewVideo", selectedFile);
-        formData.append("candidateId", id);
-        axios.post(ADD_VIDEO_TO_S3, formData)
-            .then((res) => {
-                console.log(res);
-            });
-    };
+        formData.append("result", values.result);
+        console.log('values.result', values.result)
+        formData.append("candidateId", candidateId);
+        console.log('candidateId', candidateId)
+        formData.append("interviewVideo", values.interviewVideo);
+        console.log('values.interviewVideo', values.interviewVideo)
+        console.log('formData', formData)
 
-    const onAddFeedback = (event, id) => {
-        console.log(event.target.value);
-        const result = event.target.value;
-        const formData = new FormData();
-        formData.append("result", result);
-        formData.append("candidateId", id);
-        axios.post(Add_INTERVIEW_RESULT, formData)
+        axios.post('http://localhost:9090/uploadInterview', formData)
             .then((res) => {
                 console.log(res);
             });
@@ -137,6 +136,9 @@ const Results = ({ className, customers, selectedFile, ...rest }) => {
                                 <TableCell>
                                     Feedback
                 </TableCell>
+                                <TableCell>
+                                    Done
+                </TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -171,20 +173,31 @@ const Results = ({ className, customers, selectedFile, ...rest }) => {
                                         {moment(customer.scheduledDate).format('DD/MM/YYYY')}
                                     </TableCell>
                                     <TableCell>
-                                        <input type="file" onChange={(event) => { onFileChange(event, customer.id) }} />
+                                        <input type="file" name="interviewVideo" onChange={(e) => setValues({
+                                            ...values,
+                                            interviewVideo: e.target.files[0]
+                                        })} />
 
                                     </TableCell>
                                     <TableCell>
                                         <TextField
-
-                                            // label="Select Job Role"
                                             name="result"
-                                            onKeyUp={(event) => { onAddFeedback(event, customer.id) }}
+                                            onChange={(e) => setValues({
+                                                ...values,
+                                                result: e.target.value
+                                            })}
                                             required
                                             variant="outlined"
                                         >
-
+                                            {customer.result ? customer.result : ''}
                                         </TextField>
+                                    </TableCell>
+                                    <TableCell>
+                                        <Button color="primary"
+                                            variant="contained"
+                                            onClick={AddResults(customer.id)}>
+                                            Done
+                                        </Button>
                                     </TableCell>
                                 </TableRow>
                             ))}

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import moment from 'moment';
+import axios from 'axios';
 
 import clsx from 'clsx';
 import {
@@ -23,12 +24,13 @@ const useStyles = makeStyles(() => ({
 const ScheduleInterview = (className, ...rest) => {
   const classes = useStyles();
   const [values, setValues] = useState({
-    firstName: 'Katarina',
-    lastName: 'Smith',
-    email: 'demo@devias.io',
-    phone: '',
-    state: 'Alabama',
-    country: 'USA'
+    position: null,
+    ladivisionstName: null,
+    scheduledDate: null,
+    candidateName: null,
+    candidateEmailAddress: null,
+    interviewerName: null,
+    interviewerName: null
   });
 
   const handleChange = (event) => {
@@ -51,11 +53,15 @@ const ScheduleInterview = (className, ...rest) => {
       interviewerEmailAddress: values.interviewerEmailAddress
     }
 
-    fetch(ADD_SCHEDULE_INTERVIEW, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: data
-    })
+    // fetch(ADD_SCHEDULE_INTERVIEW, {
+    //   method: 'POST',
+    //   headers: { 'Content-Type': 'application/json' },
+    //   body: data
+    // });
+    axios.post(ADD_SCHEDULE_INTERVIEW, data)
+      .then((res) => {
+        console.log(res);
+      });
   }
 
   return (
@@ -129,7 +135,6 @@ const ScheduleInterview = (className, ...rest) => {
                       fullWidth
                       label="Select Team"
                       name="division"
-                      onChange={handleChange}
                       required
                       variant="outlined"
                       onChange={(e) => setValues({
