@@ -27,7 +27,7 @@ public class InterviewEntity {
     private Date scheduledDate;
     private int isCompleted;
     private float result;
-    private int isSelected;
+    private int isSelected;  // value may one of this -> in-progress = 0 selected=1 rejected=2
 
     public InterviewEntity(long id, String candidateName, String candidateEmailAddress, String candidateId,
                            String position, String division, Date scheduledDate) {
