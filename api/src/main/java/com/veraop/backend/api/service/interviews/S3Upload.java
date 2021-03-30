@@ -27,5 +27,7 @@ public class S3Upload {
 
         s3Client.putObject(BUCKET_NAME, userId + "/" + file.getOriginalFilename(),
                 file.getInputStream(), metadata);
+
+        
     }
 }
