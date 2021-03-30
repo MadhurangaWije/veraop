@@ -15,9 +15,19 @@ import {
   TablePagination,
   TableRow,
   Typography,
-  makeStyles
+  makeStyles,
+  Button
 } from '@material-ui/core';
-// import getInitials from 'src/utils/getInitials';
+const { v4: uuidv4 } = require('uuid');
+const AWS = require('aws-sdk');
+import {
+  ConsoleLogger,
+  DefaultDeviceController,
+  DefaultMeetingSession,
+  LogLevel,
+  MeetingSessionConfiguration,
+} from 'amazon-chime-sdk-js';
+import { result } from 'lodash';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -32,6 +42,8 @@ const Results = ({ className, customers, ...rest }) => {
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
+
+
 
   const handleSelectAll = (event) => {
     let newSelectedCustomerIds;
@@ -73,6 +85,40 @@ const Results = ({ className, customers, ...rest }) => {
     setPage(newPage);
   };
 
+  const GET_CHIME_INFO = "http://localhost:9090/getChimeMeetingInfo";
+
+  const startMeeting = async () => {
+    const meeting = {};
+    const attendee = {}
+    fetch(GET_CHIME_INFO)
+      .then((response) => response.json())
+      .then((result) => {
+        meeting = result.meeting;
+        attendee = result.attendee;
+      }).catch((e) => {
+        console.log(e);
+      });
+    //chime related
+    const logger = new ConsoleLogger('ChimeMeetingLogs', LogLevel.INFO);
+    const deviceController = new DefaultDeviceController(logger);
+    const configuration = new MeetingSessionConfiguration(meeting, attendee);
+    const meetingSession = new DefaultMeetingSession(configuration, logger, deviceController);
+
+    try {
+      const audioInputs = await meetingSession.audioVideo.listAudioInputDevices();
+      await meetingSession.audioVideo.chooseAudioInputDevice(audioInputs[0].deviceId);
+      console.log('audioInputs', audioInputs)
+    } catch (err) {
+      console.log('err', err)
+
+      // handle error - unable to acquire audio device perhaps due to permissions blocking
+    }
+
+    const audioOutputElement = document.getElementById('chime-audio');
+    meetingSession.audioVideo.bindAudioElement(audioOutputElement);
+    meetingSession.audioVideo.start();
+  }
+
 
   return (
     <Card
@@ -107,6 +153,7 @@ const Results = ({ className, customers, ...rest }) => {
                 <TableCell>
                   Schedualed Time
                 </TableCell>
+                <TableCell></TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -114,13 +161,13 @@ const Results = ({ className, customers, ...rest }) => {
 
                 <TableRow
                   hover
-                  key={customer.id}
-                  selected={selectedCustomerIds.indexOf(customer.id) !== -1}
+                  key={customer.candidateId}
+                  selected={selectedCustomerIds.indexOf(customer.candidateId) !== -1}
                 >
                   <TableCell padding="checkbox">
                     <Checkbox
-                      checked={selectedCustomerIds.indexOf(customer.id) !== -1}
-                      onChange={(event) => handleSelectOne(event, customer.id)}
+                      checked={selectedCustomerIds.indexOf(customer.candidateId) !== -1}
+                      onChange={(event) => handleSelectOne(event, customer.candidateId)}
                       value="true"
                     />
                   </TableCell>
@@ -147,7 +194,16 @@ const Results = ({ className, customers, ...rest }) => {
                   <TableCell>
                     {moment(customer.scheduledDate).format('YYYY-MM-DD HH:mm:ss')}
                   </TableCell>
-
+                  <TableCell>
+                    <Button
+                      color="primary"
+                      variant="contained"
+                      onClick={startMeeting}
+                    >
+                      Start Meeting
+                    </Button>
+                    <audio id="chime-audio" display="none"></audio>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
