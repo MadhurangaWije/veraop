@@ -4,17 +4,18 @@ import com.amazonaws.regions.Regions;
 import com.amazonaws.services.chime.AmazonChime;
 import com.amazonaws.services.chime.AmazonChimeClient;
 import com.amazonaws.services.chime.model.*;
+import com.veraop.backend.api.dto.MeetingDTO;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import com.amazonaws.services.chime.AmazonChimeClientBuilder;
 
-import java.util.Date;
-import java.util.UUID;
+import java.util.*;
 
 @Service
-public class MeetingService
-{
+public class MeetingService {
 
-    String getMeeting(){
+    String getMeeting() {
         AmazonChime chime = AmazonChimeClientBuilder
                 .standard().build();
 
@@ -45,18 +46,18 @@ public class MeetingService
         createMeetingRequest.setMediaRegion("us-east-1");
         createMeetingRequest.setMeetingHostId("veraop");
 
-        CreateMeetingResult meetingResult =  chime.createMeeting(createMeetingRequest);
+        CreateMeetingResult meetingResult = chime.createMeeting(createMeetingRequest);
 
-        Meeting meeting =  meetingResult.getMeeting();
+        Meeting meeting = meetingResult.getMeeting();
 
         String meetingID = meeting.getMeetingId();
 
-        System.out.println("Scheduled meeting ID is :"+meetingID);
+        System.out.println("Scheduled meeting ID is :" + meetingID);
 
         CreateAttendeeRequest createAttendeeRequest = new CreateAttendeeRequest().withMeetingId(meetingID);
         createAttendeeRequest.setExternalUserId(uuid.toString());
 
-        CreateAttendeeResult  createAttendeeResult = chime.createAttendee(createAttendeeRequest);
+        CreateAttendeeResult createAttendeeResult = chime.createAttendee(createAttendeeRequest);
 
         String attendeeId = createAttendeeResult.getAttendee().getAttendeeId();
         String attendeeJoinToken = createAttendeeResult.getAttendee().getJoinToken();
@@ -66,7 +67,42 @@ public class MeetingService
 
     }
 
+    public MeetingDTO createNewMeetingInfo() {
 
+        AmazonChime chime = AmazonChimeClientBuilder
+                .standard().build();
+
+        CreateMeetingRequest createMeetingRequest = new CreateMeetingRequest();
+
+        UUID uuid = UUID.randomUUID();
+        createMeetingRequest.setClientRequestToken(uuid.toString());
+        createMeetingRequest.setMediaRegion("us-east-1");
+        createMeetingRequest.setMeetingHostId("veraop");
+
+        CreateMeetingResult meetingResult = chime.createMeeting(createMeetingRequest);
+
+        Meeting meeting = meetingResult.getMeeting();
+
+        String meetingID = meeting.getMeetingId();
+
+        System.out.println("Scheduled meeting ID is :" + meetingID);
+
+        CreateAttendeeRequest createAttendeeRequest = new CreateAttendeeRequest().withMeetingId(meetingID);
+        createAttendeeRequest.setExternalUserId(uuid.toString());
+
+        CreateAttendeeResult createAttendeeResult = chime.createAttendee(createAttendeeRequest);
+
+        Attendee attendee = createAttendeeResult.getAttendee();
+
+        Map<Meeting, Attendee> meetingData = new HashMap<>();
+        meetingData.put(meeting, attendee);
+
+        MeetingDTO meetingDTO = new MeetingDTO();
+        meetingDTO.setMeetingObject(meeting);
+        meetingDTO.setAttendeeObject(attendee);
+
+        return meetingDTO;
+    }
 
 
 }
