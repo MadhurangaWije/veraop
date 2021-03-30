@@ -80,22 +80,30 @@ const Results = ({ className, customers, selectedFile, ...rest }) => {
     const handlePageChange = (event, newPage) => {
         setPage(newPage);
     };
+
     const ADD_VIDEO_TO_S3 = 'http://localhost:9090/uploadInterview';
-    // const Add_INTERVIEW_RESULT = 'http://localhost:9090/addResult';
 
-
-
-    const AddResults = (candidateId) => {
+    const AcceptCandidate = (candidateId) => {
         const formData = new FormData();
         formData.append("result", values.result);
-        console.log('values.result', values.result)
         formData.append("candidateId", candidateId);
-        console.log('candidateId', candidateId)
         formData.append("interviewVideo", values.interviewVideo);
-        console.log('values.interviewVideo', values.interviewVideo)
-        console.log('formData', formData)
+        formData.append('selected', 1);
 
-        axios.post('http://localhost:9090/uploadInterview', formData)
+        axios.post(ADD_VIDEO_TO_S3, formData)
+            .then((res) => {
+                console.log(res);
+            });
+    }
+
+    const rejectCandidate = (candidateId) => {
+        const formData = new FormData();
+        formData.append("result", values.result);
+        formData.append("candidateId", candidateId);
+        formData.append("interviewVideo", values.interviewVideo);
+        formData.append('selected', 0);
+
+        axios.post(ADD_VIDEO_TO_S3, formData)
             .then((res) => {
                 console.log(res);
             });
@@ -138,7 +146,10 @@ const Results = ({ className, customers, selectedFile, ...rest }) => {
                 </TableCell>
                                 <TableCell>
 
-                </TableCell>
+                                </TableCell>
+                                <TableCell>
+
+                                </TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -195,8 +206,15 @@ const Results = ({ className, customers, selectedFile, ...rest }) => {
                                     <TableCell>
                                         <Button color="primary"
                                             variant="contained"
-                                            onClick={() => AddResults(customer.candidateId)}>
-                                            Done
+                                            onClick={() => AcceptCandidate(customer.candidateId)}>
+                                            Accept
+                                        </Button>
+                                    </TableCell>
+                                    <TableCell>
+                                        <Button color="primary"
+                                            variant="contained"
+                                            onClick={() => rejectCandidate(customer.candidateId)}>
+                                            Reject
                                         </Button>
                                     </TableCell>
                                 </TableRow>
