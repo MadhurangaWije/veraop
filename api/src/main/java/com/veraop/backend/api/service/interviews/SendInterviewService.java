@@ -22,12 +22,13 @@ public class SendInterviewService {
         private static final String EMAIL_TEXT_TEMPLATE = "Dear %s,\n" +
                 "\n" +
                 "Thank you for applying for the position of %s, \n Your interview has been scheduled for %s, " +
+                "Please log in to the https://webclient.app.chime.aws/ using  %s as your Meeting ID " +
                 "\n" +
                 "\n" +
                 "Please call me at 651-555-6666 or email me if you have any questions or need to reschedule." +
                 "\n" +
                 "\n" +
-                "Best regards,\n" +
+                "Best Regards,\n" +
                 "%s\n";
 
         @Value("${onboard.email.sender.address}")
@@ -53,7 +54,7 @@ public class SendInterviewService {
          *
          * @param requestData data from onboard API request
          */
-        public void sendInterviewInvitation(String candidateName, String candidateEmail, Date interviewTime) {
+        public void sendInterviewInvitation(String candidateName, String candidateEmail, Date interviewTime, String meetingId) {
 
             String formattedDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
@@ -64,7 +65,7 @@ public class SendInterviewService {
             Destination destination = new Destination(List.of(candidateEmail));
 
            String  emailContent =  String.format(EMAIL_TEXT_TEMPLATE, candidateName,companyName, interviewTime.toString(),
-                    senderName);
+                    meetingId, senderName);
 
            System.out.println("-----Interview Invitation Email Content--------"+emailContent);
 
