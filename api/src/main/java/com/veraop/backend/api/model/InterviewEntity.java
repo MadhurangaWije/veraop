@@ -45,6 +45,20 @@ public class InterviewEntity {
 
     }
 
+    
+    public InterviewEntity(long id,String candidateName,String candidateEmailAddress,String candidateId,String position, String division, Date scheduledDate, float result){
+        this.id = id;
+        this.candidateName = candidateName;
+        this.candidateEmailAddress = candidateEmailAddress;
+        this.candidateId = candidateId;
+        this.position = position;
+        this.division = division;
+        this.scheduledDate = scheduledDate;
+        this.isCompleted = 1;
+        this.result = result;
+    }
+
+
     public InterviewDto toDto() {
         InterviewDto interviewDto = new InterviewDto();
         BeanUtils.copyProperties(this, interviewDto);

@@ -20,8 +20,8 @@ public class InterviewService {
     InterviewEntityRepository interviewEntityRepository;
 
     public ResponseEntity saveData(String candidateName, String candidateEmailAddress, String candidatePosition,
-                                   String division, Date scheduledDate ) throws ParseException {
-        Random rand = new Random();
+                                   String division, Date scheduledDate ) throws ParseException { 
+        Random rand = new Random();                               
         int year = 2021;
         int month = rand.nextInt(12) + 0;
         int date = rand.nextInt(31) + 0;;
@@ -72,6 +72,30 @@ public class InterviewService {
         List<InterviewEntity> scheduledInterviews = (List<InterviewEntity>) interviewEntityRepository.findByIsCompleted(1);
 
         return ResponseEntity.status(HttpStatus.OK).body(scheduledInterviews);
+
+    }
+
+    public ResponseEntity<CommonMessage> uploadInterviewVideo(InterviewReview reviewData) throws IOException {
+        S3Upload.uploadFile(reviewData.getCandidateId, reviewData.getInterviewVideo);
+
+        Optional<InterviewEntity> interviewEntity = interviewEntityRepository.findByCandidateId(reviewData.getCandidateI);
+
+
+        InterviewEntity interviewEntity = interviewEntityRepository.save(
+        new InterviewEntity(
+        interviewEntity.getId, 
+        interviewEntity.getCandidateName,
+        interviewEntity.getcandidateEmailAddress
+        interviewEntity.getCandidateId,
+        interviewEntity.getPosition, 
+        interviewEntity.getDivision,
+        interviewEntity.getScheduledDate,
+        reviewData.getResult  
+        ));
+
+        InterviewEntity interviewEntity = interviewEntityRepository.save(
+                new InterviewEntity(id, candidateName,uuid.toString(), candidatePosition, division, scheduledDate));
+        return ResponseEntity.ok(new CommonMessage("Interview video uploaded to S3"));
 
     }
 }

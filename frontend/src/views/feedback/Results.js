@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import axios from 'axios';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import {
     // Avatar,
@@ -16,7 +17,9 @@ import {
     TableRow,
     Typography,
     makeStyles,
-    Tab
+    TextField,
+    Tab,
+    Button
 } from '@material-ui/core';
 // import getInitials from 'src/utils/getInitials';
 
@@ -32,6 +35,11 @@ const Results = ({ className, customers, selectedFile, ...rest }) => {
     const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
     const [limit, setLimit] = useState(10);
     const [page, setPage] = useState(0);
+    const [values, setValues] = useState({
+        interviewVideo: null,
+        candidateId: null,
+        result: null,
+    });
 
     const handleSelectAll = (event) => {
         let newSelectedCustomerIds;
@@ -72,40 +80,26 @@ const Results = ({ className, customers, selectedFile, ...rest }) => {
     const handlePageChange = (event, newPage) => {
         setPage(newPage);
     };
-    const ADD_VIDEO_TO_S3 = 'http://demo3190284.mockable.io/uploadVideo';
+    const ADD_VIDEO_TO_S3 = 'http://localhost:9090/uploadInterview';
+    // const Add_INTERVIEW_RESULT = 'http://localhost:9090/addResult';
 
 
-    const onFileChange = event => {
 
-        // Update the state
-        console.log('event.target.files', event.target.files)
-        const selectedFile = event.target.files[0];
+    const AddResults = (candidateId) => {
         const formData = new FormData();
-        var videoFile = document.querySelector('#file');
-        console.log('videoFile', videoFile)
-        formData.append("video", event.target.files[0]);
+        formData.append("result", values.result);
+        console.log('values.result', values.result)
+        formData.append("candidateId", candidateId);
+        console.log('candidateId', candidateId)
+        formData.append("interviewVideo", values.interviewVideo);
+        console.log('values.interviewVideo', values.interviewVideo)
         console.log('formData', formData)
-        console.log('selectedFile', selectedFile)
-        // props.addVideoToS3(selectedFile);
-        fetch(ADD_VIDEO_TO_S3, {
-            mode: 'no-cors',
-            method: 'POST',
-            headers: { 'Content-Type': 'multipart/form-data' },
-            body: JSON.stringify(selectedFile)
-        })
-            .then((response) => response.json())
-            .then((result) => {
-                this.setState({ feedbackValue: result });
-            }).catch((e) => {
-                console.log(e);
+
+        axios.post('http://localhost:9090/uploadInterview', formData)
+            .then((res) => {
+                console.log(res);
             });
-        // this.setState({ selectedFile: event.target.files[0] });
-        // console.log(this.state.selectedFile);
-
-    };
-
-
-
+    }
 
 
     return (
@@ -132,12 +126,7 @@ const Results = ({ className, customers, selectedFile, ...rest }) => {
                                 <TableCell>
                                     Name
                 </TableCell>
-                                {/* <TableCell>
-                  Role
-                </TableCell> */}
-                                {/* <TableCell>
-                  Team
-                </TableCell> */}
+
                                 <TableCell>
                                     Interview Date
                 </TableCell>
@@ -146,6 +135,9 @@ const Results = ({ className, customers, selectedFile, ...rest }) => {
                 </TableCell>
                                 <TableCell>
                                     Feedback
+                </TableCell>
+                                <TableCell>
+                                    Done
                 </TableCell>
                             </TableRow>
                         </TableHead>
@@ -168,12 +160,7 @@ const Results = ({ className, customers, selectedFile, ...rest }) => {
                                             alignItems="center"
                                             display="flex"
                                         >
-                                            {/* <Avatar
-                        className={classes.avatar}
-                        src={customer.avatarUrl}
-                      >
-                        {getInitials(customer.name)}
-                      </Avatar> */}
+
                                             <Typography
                                                 color="textPrimary"
                                                 variant="body1"
@@ -182,27 +169,35 @@ const Results = ({ className, customers, selectedFile, ...rest }) => {
                                             </Typography>
                                         </Box>
                                     </TableCell>
-                                    {/* <TableCell>
-                                        {customer.role}
-                                    </TableCell> */}
-                                    {/* <TableCell>
-                                        {customer.team}
-                                    </TableCell> */}
-                                    {/* <TableCell>
-                    {`${customer.address.city},
-                    ${customer.address.state}, ${customer.address.country}`}
-                  </TableCell> */}
                                     <TableCell>
-                                        {moment(customer.interviewDate).format('DD/MM/YYYY')}
+                                        {moment(customer.scheduledDate).format('DD/MM/YYYY')}
                                     </TableCell>
                                     <TableCell>
-                                        <input type="file" onChange={onFileChange} />
-                                        {/* <button onClick={onFileUpload}>
-                                            Upload!
-                </button> */}
-                                    </TableCell>
-                                    <TableCell>
+                                        <input type="file" name="interviewVideo" onChange={(e) => setValues({
+                                            ...values,
+                                            interviewVideo: e.target.files[0]
+                                        })} />
 
+                                    </TableCell>
+                                    <TableCell>
+                                        <TextField
+                                            name="result"
+                                            onChange={(e) => setValues({
+                                                ...values,
+                                                result: e.target.value
+                                            })}
+                                            required
+                                            variant="outlined"
+                                        >
+                                            {customer.result ? customer.result : ''}
+                                        </TextField>
+                                    </TableCell>
+                                    <TableCell>
+                                        <Button color="primary"
+                                            variant="contained"
+                                            onClick={AddResults(customer.id)}>
+                                            Done
+                                        </Button>
                                     </TableCell>
                                 </TableRow>
                             ))}

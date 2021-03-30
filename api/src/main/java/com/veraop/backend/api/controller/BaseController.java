@@ -60,7 +60,13 @@ public class BaseController {
                 );
     }
 
+    @PostMapping(path = "uploadInterview")
+    @CrossOrigin(origins = "*")
+    public ResponseEntity<CommonMessage> uploadInterview(@ModelAttribute InterviewReview requestData) throws IOException {
 
+        return interviewService.uploadInterviewVideo(requestData);
+    }
 
 
 }
+  
