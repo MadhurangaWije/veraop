@@ -3,13 +3,12 @@ package com.veraop.backend.api.service.interviews;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.chime.AmazonChime;
 import com.amazonaws.services.chime.AmazonChimeClient;
-import com.amazonaws.services.chime.model.CreateMeetingRequest;
-import com.amazonaws.services.chime.model.CreateMeetingResult;
-import com.amazonaws.services.chime.model.Meeting;
+import com.amazonaws.services.chime.model.*;
 import org.springframework.stereotype.Service;
 import com.amazonaws.services.chime.AmazonChimeClientBuilder;
 
 import java.util.Date;
+import java.util.UUID;
 
 @Service
 public class MeetingService
@@ -41,9 +40,10 @@ public class MeetingService
 
         CreateMeetingRequest createMeetingRequest = new CreateMeetingRequest();
 
-        createMeetingRequest.setClientRequestToken("1234");
+        UUID uuid = UUID.randomUUID();
+        createMeetingRequest.setClientRequestToken(uuid.toString());
         createMeetingRequest.setMediaRegion("us-east-1");
-        createMeetingRequest.setMeetingHostId("test");
+        createMeetingRequest.setMeetingHostId("veraop");
 
         CreateMeetingResult meetingResult =  chime.createMeeting(createMeetingRequest);
 
@@ -53,7 +53,16 @@ public class MeetingService
 
         System.out.println("Scheduled meeting ID is :"+meetingID);
 
-        return meetingID;
+        CreateAttendeeRequest createAttendeeRequest = new CreateAttendeeRequest().withMeetingId(meetingID);
+        createAttendeeRequest.setExternalUserId(uuid.toString());
+
+        CreateAttendeeResult  createAttendeeResult = chime.createAttendee(createAttendeeRequest);
+
+        String attendeeId = createAttendeeResult.getAttendee().getAttendeeId();
+        String attendeeJoinToken = createAttendeeResult.getAttendee().getJoinToken();
+
+
+        return attendeeJoinToken;
 
     }
 
