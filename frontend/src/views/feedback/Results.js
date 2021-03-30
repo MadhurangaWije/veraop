@@ -137,7 +137,7 @@ const Results = ({ className, customers, selectedFile, ...rest }) => {
                                     Feedback
                 </TableCell>
                                 <TableCell>
-                                    Done
+
                 </TableCell>
                             </TableRow>
                         </TableHead>
@@ -165,7 +165,7 @@ const Results = ({ className, customers, selectedFile, ...rest }) => {
                                                 color="textPrimary"
                                                 variant="body1"
                                             >
-                                                {customer.name}
+                                                {customer.candidateName}
                                             </Typography>
                                         </Box>
                                     </TableCell>
@@ -195,7 +195,7 @@ const Results = ({ className, customers, selectedFile, ...rest }) => {
                                     <TableCell>
                                         <Button color="primary"
                                             variant="contained"
-                                            onClick={AddResults(customer.id)}>
+                                            onClick={() => AddResults(customer.candidateId)}>
                                             Done
                                         </Button>
                                     </TableCell>
