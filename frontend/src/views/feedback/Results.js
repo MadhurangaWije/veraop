@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import axios from 'axios';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import {
     // Avatar,
@@ -16,6 +17,7 @@ import {
     TableRow,
     Typography,
     makeStyles,
+    TextField,
     Tab
 } from '@material-ui/core';
 // import getInitials from 'src/utils/getInitials';
@@ -72,40 +74,33 @@ const Results = ({ className, customers, selectedFile, ...rest }) => {
     const handlePageChange = (event, newPage) => {
         setPage(newPage);
     };
-    const ADD_VIDEO_TO_S3 = 'http://demo3190284.mockable.io/uploadVideo';
+    const ADD_VIDEO_TO_S3 = 'http://localhost:9090/uploadInterview';
+    const Add_INTERVIEW_RESULT = 'http://localhost:9090/addResult';
 
 
-    const onFileChange = event => {
-
+    const onFileChange = (event, id) => {
         // Update the state
-        console.log('event.target.files', event.target.files)
         const selectedFile = event.target.files[0];
         const formData = new FormData();
-        var videoFile = document.querySelector('#file');
-        console.log('videoFile', videoFile)
-        formData.append("video", event.target.files[0]);
-        console.log('formData', formData)
-        console.log('selectedFile', selectedFile)
-        // props.addVideoToS3(selectedFile);
-        fetch(ADD_VIDEO_TO_S3, {
-            mode: 'no-cors',
-            method: 'POST',
-            headers: { 'Content-Type': 'multipart/form-data' },
-            body: JSON.stringify(selectedFile)
-        })
-            .then((response) => response.json())
-            .then((result) => {
-                this.setState({ feedbackValue: result });
-            }).catch((e) => {
-                console.log(e);
+        formData.append("interviewVideo", selectedFile);
+        formData.append("candidateId", id);
+        axios.post(ADD_VIDEO_TO_S3, formData)
+            .then((res) => {
+                console.log(res);
             });
-        // this.setState({ selectedFile: event.target.files[0] });
-        // console.log(this.state.selectedFile);
-
     };
 
-
-
+    const onAddFeedback = (event, id) => {
+        console.log(event.target.value);
+        const result = event.target.value;
+        const formData = new FormData();
+        formData.append("result", result);
+        formData.append("candidateId", id);
+        axios.post(Add_INTERVIEW_RESULT, formData)
+            .then((res) => {
+                console.log(res);
+            });
+    }
 
 
     return (
@@ -132,12 +127,7 @@ const Results = ({ className, customers, selectedFile, ...rest }) => {
                                 <TableCell>
                                     Name
                 </TableCell>
-                                {/* <TableCell>
-                  Role
-                </TableCell> */}
-                                {/* <TableCell>
-                  Team
-                </TableCell> */}
+
                                 <TableCell>
                                     Interview Date
                 </TableCell>
@@ -168,12 +158,7 @@ const Results = ({ className, customers, selectedFile, ...rest }) => {
                                             alignItems="center"
                                             display="flex"
                                         >
-                                            {/* <Avatar
-                        className={classes.avatar}
-                        src={customer.avatarUrl}
-                      >
-                        {getInitials(customer.name)}
-                      </Avatar> */}
+
                                             <Typography
                                                 color="textPrimary"
                                                 variant="body1"
@@ -182,27 +167,24 @@ const Results = ({ className, customers, selectedFile, ...rest }) => {
                                             </Typography>
                                         </Box>
                                     </TableCell>
-                                    {/* <TableCell>
-                                        {customer.role}
-                                    </TableCell> */}
-                                    {/* <TableCell>
-                                        {customer.team}
-                                    </TableCell> */}
-                                    {/* <TableCell>
-                    {`${customer.address.city},
-                    ${customer.address.state}, ${customer.address.country}`}
-                  </TableCell> */}
                                     <TableCell>
-                                        {moment(customer.interviewDate).format('DD/MM/YYYY')}
+                                        {moment(customer.scheduledDate).format('DD/MM/YYYY')}
                                     </TableCell>
                                     <TableCell>
-                                        <input type="file" onChange={onFileChange} />
-                                        {/* <button onClick={onFileUpload}>
-                                            Upload!
-                </button> */}
-                                    </TableCell>
-                                    <TableCell>
+                                        <input type="file" onChange={(event) => { onFileChange(event, customer.id) }} />
 
+                                    </TableCell>
+                                    <TableCell>
+                                        <TextField
+
+                                            // label="Select Job Role"
+                                            name="result"
+                                            onKeyUp={(event) => { onAddFeedback(event, customer.id) }}
+                                            required
+                                            variant="outlined"
+                                        >
+
+                                        </TextField>
                                     </TableCell>
                                 </TableRow>
                             ))}

@@ -70,4 +70,10 @@ public class InterviewService {
         return ResponseEntity.status(HttpStatus.OK).body(scheduledInterviews);
 
     }
+
+    public ResponseEntity<CommonMessage> uploadInterviewVideo(InterviewVideo video) throws IOException {
+        S3Upload.uploadFile(video.getCandidateId, video.getInterviewVideo);
+        return ResponseEntity.ok(new CommonMessage("Interview video uploaded to S3"));
+
+    }
 }

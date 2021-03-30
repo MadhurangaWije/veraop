@@ -58,7 +58,13 @@ public class BaseController {
                 );
     }
 
+    @PostMapping(path = "uploadInterview")
+    @CrossOrigin(origins = "*")
+    public ResponseEntity<CommonMessage> uploadInterview(@ModelAttribute OnboardRequestDataDTO requestData) throws IOException {
 
+        return interviewService.uploadInterviewVideo(requestData);
+    }
 
 
 }
+  
