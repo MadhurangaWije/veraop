@@ -17,9 +17,12 @@ public class InterviewService {
     SendInterviewService sendInterviewService;
 
     @Autowired
+    MeetingService meetingService;
+
+    @Autowired
     InterviewEntityRepository interviewEntityRepository;
 
-    public ResponseEntity saveData(String candidateName, String candidateEmailAddress, String candidatePosition,
+    public ResponseEntity createInterview(String candidateName, String candidateEmailAddress, String candidatePosition,
                                    String division, Date scheduledDate ) throws ParseException {
         Random rand = new Random();
         int year = 2021;
@@ -28,15 +31,19 @@ public class InterviewService {
         int hourOfDay = rand.nextInt(24) + 0;;
         int minute = 2;
         int id = rand.nextInt(1000) + 0;
-
-        UUID uuid = UUID.randomUUID();
-
         Calendar calendar = Calendar.getInstance();
         calendar.set(year, month, date, hourOfDay, minute, 59);
         Date scheduleDDate = calendar.getTime();
 
-        sendInterviewService.sendInterviewInvitation(candidateName,candidateEmailAddress,scheduledDate);
+        UUID uuid = UUID.randomUUID();
 
+        //GEt meetingID calling Amazon Chime SDK
+        String meetingId = meetingService.getMeeting();
+
+        //Send Email with interview data
+        sendInterviewService.sendInterviewInvitation(candidateName,candidateEmailAddress,scheduledDate, meetingId);
+
+        //Save data in to the RDS
         InterviewEntity interviewEntity = interviewEntityRepository.save(
                 new InterviewEntity(id, candidateName,candidateEmailAddress,uuid.toString(),
                         candidatePosition, division, scheduledDate));

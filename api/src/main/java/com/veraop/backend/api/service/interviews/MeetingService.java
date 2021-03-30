@@ -2,6 +2,7 @@ package com.veraop.backend.api.service.interviews;
 
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.chime.AmazonChime;
+import com.amazonaws.services.chime.AmazonChimeClient;
 import com.amazonaws.services.chime.model.CreateMeetingRequest;
 import com.amazonaws.services.chime.model.CreateMeetingResult;
 import com.amazonaws.services.chime.model.Meeting;
@@ -16,9 +17,7 @@ public class MeetingService
 
     String getMeeting(){
         AmazonChime chime = AmazonChimeClientBuilder
-                .standard()
-                .withRegion(Regions.US_EAST_1)
-                .build();
+                .standard().build();
 
 //    String meetingId = "abc123";
 //    String externalId = "extabc123";
@@ -44,7 +43,7 @@ public class MeetingService
 
         createMeetingRequest.setClientRequestToken("1234");
         createMeetingRequest.setMediaRegion("us-east-1");
-        createMeetingRequest.setMeetingHostId("");
+        createMeetingRequest.setMeetingHostId("test");
 
         CreateMeetingResult meetingResult =  chime.createMeeting(createMeetingRequest);
 
