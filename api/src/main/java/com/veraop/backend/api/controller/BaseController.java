@@ -53,8 +53,10 @@ public class BaseController {
                                                              @RequestBody InterviewDto request) throws ParseException {
         return interviewService.saveData(
                 request.getCandidateName(),
-                request.getCandidateName(),
-                request.getDivision()
+                request.getCandidateEmailAddress(),
+                request.getPosition(),
+                request.getDivision(),
+                request.getScheduledDate()
                 );
     }
 

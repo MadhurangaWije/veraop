@@ -76,7 +76,7 @@ public class EmailService {
         String formattedDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
         AmazonSimpleEmailService emailClient = AmazonSimpleEmailServiceClientBuilder.standard()
-                .withRegion(Regions.US_EAST_1)
+               .withRegion(Regions.US_EAST_1)
                 .build();
 
         Destination destination = new Destination(List.of(requestData.getEmailAddress()));

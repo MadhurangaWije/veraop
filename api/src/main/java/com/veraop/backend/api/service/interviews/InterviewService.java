@@ -14,12 +14,13 @@ import java.util.*;
 public class InterviewService {
 
     @Autowired
-    InterviewService interviewService;
+    SendInterviewService sendInterviewService;
 
     @Autowired
     InterviewEntityRepository interviewEntityRepository;
 
-    public ResponseEntity saveData(String candidateName, String candidatePosition, String division ) throws ParseException {
+    public ResponseEntity saveData(String candidateName, String candidateEmailAddress, String candidatePosition,
+                                   String division, Date scheduledDate ) throws ParseException {
         Random rand = new Random();
         int year = 2021;
         int month = rand.nextInt(12) + 0;
@@ -32,10 +33,13 @@ public class InterviewService {
 
         Calendar calendar = Calendar.getInstance();
         calendar.set(year, month, date, hourOfDay, minute, 59);
-        Date scheduledDate = calendar.getTime();
+        Date scheduleDDate = calendar.getTime();
+
+        sendInterviewService.sendInterviewInvitation(candidateName,candidateEmailAddress,scheduledDate);
 
         InterviewEntity interviewEntity = interviewEntityRepository.save(
-                new InterviewEntity(id, candidateName,uuid.toString(), candidatePosition, division, scheduledDate));
+                new InterviewEntity(id, candidateName,candidateEmailAddress,uuid.toString(),
+                        candidatePosition, division, scheduledDate));
 
         return ResponseEntity.status(HttpStatus.OK).body(interviewEntity.toDto());
     }
