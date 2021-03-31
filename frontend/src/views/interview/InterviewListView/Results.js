@@ -44,8 +44,6 @@ const Results = ({ className, customers, ...rest }) => {
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
-  const [meetingId, setMeetingId] = useState(0);
-  const [joinToken, setJoinToken] = useState(0);
 
 
 
@@ -110,7 +108,6 @@ const Results = ({ className, customers, ...rest }) => {
     try {
       const meetingId = meeting.meetingId;
       const joinToken = attendee.joinToken;
-      // this.setState({ meetingId: meetingId, joinToken: joinToken });
       let clientId = '';
       let isMeetingHost = '';
       let requestPath = `join?clientId=${clientId}`;
@@ -273,10 +270,8 @@ const Results = ({ className, customers, ...rest }) => {
                     <div id='meeting-link'></div>
                   </TableCell>
                   <TableCell id="meeting-id">
-                    {/* The meeting id is {meetingId} and joinToken is {joinToken} */}
                   </TableCell>
                   <TableCell id="join-token">
-                    {/* The meeting id is {meetingId} and joinToken is {joinToken} */}
                   </TableCell>
                 </TableRow>
               ))}
