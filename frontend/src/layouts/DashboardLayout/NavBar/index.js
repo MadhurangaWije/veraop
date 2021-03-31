@@ -74,7 +74,7 @@ const items = [
     title: 'Requests'
   },
   {
-    href: '/app/customers',
+    href: '/app/onboard',
     icon: AttachFileOutlinedIcon,
     title: 'Onboarding'
   },

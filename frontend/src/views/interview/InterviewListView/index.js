@@ -29,7 +29,6 @@ class InterviewList extends Component {
   }
   componentDidMount() {
     this.fetchCandidates();
-    this.timer = setInterval(() => this.fetchCandidates(), 5000);
   }
 
   fetchCandidates = (() => {

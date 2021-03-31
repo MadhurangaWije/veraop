@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const Onboard = () => {
+const Onboard = (abcd) => {
   const classes = useStyles();
   const params = useParams();
   const [values, setValues] = useState({
@@ -36,6 +36,14 @@ const Onboard = () => {
     emailAddress: null,
     userId: null
   });
+
+  // axios.get('http://localhost:9090/onboard/'+ params.id)
+  //           .then((res) => {
+  //               if(!res.data) {
+  //                 alert('Not Found');
+  //                 window.open("/404", "_self");
+  //               }
+  //           });
 
   const bankDetailSelectHandler = (event) => {
     setValues({
@@ -63,7 +71,16 @@ const Onboard = () => {
 
     axios.post('http://localhost:9090/onboard', fd)
       .then((res) => {
-        console.log(res);
+        setValues({
+          selectedBankDetail: null,
+          selectedNic: null,
+          firstName: null,
+          lastName: null,
+          address: null,
+          emailAddress: null,
+          userId: null
+        });
+        alert('Onboarding successful');
       });
   };
 

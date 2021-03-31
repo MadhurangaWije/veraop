@@ -24,6 +24,7 @@ import ApplicationReviewView from 'src/views/review';
 import CandidateRequestListView from 'src/views/requests/RequestListView';
 import RequestDetailView from './views/requests/RequestDetailView';
 import CandidateProfileView from './views/customer/CandidateProfileView';
+import OnboardListView from './views/onboard/OnboardListView';
 
 const routes = [
   {
@@ -46,6 +47,7 @@ const routes = [
       { path: 'vacancies/:id', element: <VacancyDetailView /> },
       { path: 'requests', element: <CandidateRequestListView /> },
       { path: 'requests/:id', element: <RequestDetailView /> },
+      { path: 'onboard', element: <OnboardListView /> },
       { path: '*', element: <Navigate to="/404" /> }
     ]
   },

@@ -38,6 +38,8 @@ dependencies {
     implementation group: 'com.amazonaws', name: 'aws-java-sdk-s3', version: '1.11.792'
     implementation group: 'com.amazonaws', name: 'aws-java-sdk-ses', version: '1.11.792'
 
+    implementation group: 'com.amazonaws', name: 'aws-java-sdk-chime', version: '1.11.694'
+
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     annotationProcessor 'org.projectlombok:lombok'

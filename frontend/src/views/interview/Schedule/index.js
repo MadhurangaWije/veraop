@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import moment from 'moment';
+import axios from 'axios';
 
 import clsx from 'clsx';
 import {
@@ -16,7 +17,6 @@ import {
 } from '@material-ui/core';
 import Page from 'src/components/Page';
 import { useLocation } from 'react-router-dom';
-import axios from 'axios';
 
 const useStyles = makeStyles(() => ({
   root: {}
@@ -27,12 +27,13 @@ const ScheduleInterview = (props) => {
   const location = useLocation();
   console.log(location.pathname.split("/"));
   const [values, setValues] = useState({
-    firstName: 'Katarina',
-    lastName: 'Smith',
-    email: 'demo@devias.io',
-    phone: '',
-    state: 'Alabama',
-    country: 'USA'
+    position: null,
+    ladivisionstName: null,
+    scheduledDate: null,
+    candidateName: null,
+    candidateEmailAddress: null,
+    interviewerName: null,
+    interviewerName: null
   });
 
   console.log(props);
@@ -70,11 +71,15 @@ const ScheduleInterview = (props) => {
       interviewerEmailAddress: values.interviewerEmailAddress
     }
 
-    fetch(ADD_SCHEDULE_INTERVIEW, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: data
-    })
+    // fetch(ADD_SCHEDULE_INTERVIEW, {
+    //   method: 'POST',
+    //   headers: { 'Content-Type': 'application/json' },
+    //   body: data
+    // });
+    axios.post(ADD_SCHEDULE_INTERVIEW, data)
+      .then((res) => {
+        console.log(res);
+      });
   }
 
   return (
@@ -150,7 +155,6 @@ const ScheduleInterview = (props) => {
                       disabled
                       value={jobApplication.vacancy.team}
                       name="division"
-                      onChange={handleChange}
                       required
                       variant="outlined"
                       onChange={(e) => setValues({

@@ -22,13 +22,29 @@ public class SendInterviewService {
         private static final String EMAIL_TEXT_TEMPLATE = "Dear %s,\n" +
                 "\n" +
                 "Thank you for applying for the position of %s, \n Your interview has been scheduled for %s, " +
+                "Please log in to the https://webclient.app.chime.aws/ using  %s as your Meeting ID " +
                 "\n" +
                 "\n" +
                 "Please call me at 651-555-6666 or email me if you have any questions or need to reschedule." +
                 "\n" +
                 "\n" +
-                "Best regards,\n" +
+                "Best Regards,\n" +
                 "%s\n";
+
+    private static final String ONBOARD_EMAIL_TEXT_TEMPLATE = "Dear %s,\n" +
+            "\n" +
+            "Thank you very much for  participating our interview process. It was a pleasure getting to know you. " +
+            "We have finished conducting our interviews. " +
+            "\n" +
+            "I am delighted to inform you that we have determined that you are a good candidate for this position." +
+            "\n" +
+            "\n" +
+            "Please log in to our candidate onboard system using %s URL and update your information there. " +
+            "\n" +
+            "\n" +
+            "\n" +
+            "Best Regards,\n" +
+            "%s\n";
 
         @Value("${onboard.email.sender.address}")
         private String senderMailAddress;
@@ -38,6 +54,9 @@ public class SendInterviewService {
 
         @Value("${onboard.email.sender.name}")
         private String senderName;
+
+        @Value("${app.host.url}")
+        private String hostUrl;
 
         @PostConstruct
         private void postProcess() {
@@ -51,9 +70,8 @@ public class SendInterviewService {
         /**
          * Sends the onboard welcome email to the given user.
          *
-         * @param requestData data from onboard API request
          */
-        public void sendInterviewInvitation(String candidateName, String candidateEmail, Date interviewTime) {
+        public void sendInterviewInvitation(String candidateName, String candidateEmail, Date interviewTime, String meetingId) {
 
             String formattedDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
@@ -64,7 +82,7 @@ public class SendInterviewService {
             Destination destination = new Destination(List.of(candidateEmail));
 
            String  emailContent =  String.format(EMAIL_TEXT_TEMPLATE, candidateName,companyName, interviewTime.toString(),
-                    senderName);
+                    meetingId, senderName);
 
            System.out.println("-----Interview Invitation Email Content--------"+emailContent);
 
@@ -75,4 +93,26 @@ public class SendInterviewService {
 
             SendEmailResult sendEmailResult = emailClient.sendEmail(sendEmailRequest);
         }
+
+    public void sendOnboardInvitation(String candidateName, String candidateEmail, String candidateId) {
+
+        AmazonSimpleEmailService emailClient = AmazonSimpleEmailServiceClientBuilder.standard()
+                .withRegion(Regions.US_EAST_1)
+                .build();
+
+        Destination destination = new Destination(List.of(candidateEmail));
+
+        String onboard_url = hostUrl + "/onboard/" + candidateId;
+
+        String  onboardEmailContent =  String.format(ONBOARD_EMAIL_TEXT_TEMPLATE, candidateName,onboard_url,senderName);
+
+        System.out.println("-----Onboard Invitation Email Content--------"+onboardEmailContent);
+
+        Message mailMessage = new Message(new Content(String.format("Welcome to %s", companyName)),
+                new Body(new Content(onboardEmailContent)));
+
+        SendEmailRequest sendEmailRequest = new SendEmailRequest(senderMailAddress, destination, mailMessage);
+
+        SendEmailResult sendEmailResult = emailClient.sendEmail(sendEmailRequest);
+    }
 }

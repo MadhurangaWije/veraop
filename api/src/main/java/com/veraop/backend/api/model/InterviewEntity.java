@@ -27,6 +27,7 @@ public class InterviewEntity {
     private Date scheduledDate;
     private int isCompleted;
     private float result;
+    private int isSelected;  // value may one of this -> in-progress = 0 selected=1 rejected=2
 
     public InterviewEntity(long id, String candidateName, String candidateEmailAddress, String candidateId,
                            String position, String division, Date scheduledDate) {
@@ -39,11 +40,26 @@ public class InterviewEntity {
         this.scheduledDate = scheduledDate;
         this.isCompleted = 0;
         this.result = 0.0F;
+        this.isSelected = 0;
     }
 
     public InterviewEntity() {
 
     }
+
+    
+    public InterviewEntity(long id,String candidateName,String candidateEmailAddress,String candidateId,String position, String division, Date scheduledDate, float result){
+        this.id = id;
+        this.candidateName = candidateName;
+        this.candidateEmailAddress = candidateEmailAddress;
+        this.candidateId = candidateId;
+        this.position = position;
+        this.division = division;
+        this.scheduledDate = scheduledDate;
+        this.isCompleted = 1;
+        this.result = result;
+    }
+
 
     public InterviewDto toDto() {
         InterviewDto interviewDto = new InterviewDto();

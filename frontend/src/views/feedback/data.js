@@ -2,36 +2,25 @@ import { v4 as uuid } from 'uuid';
 
 export default [
     {
-        id: uuid(),
-        address: {
-            country: 'USA',
-            state: 'West Virginia',
-            city: 'Parkersburg',
-            street: '2849 Fulton Street'
-        },
-        avatarUrl: '/static/images/avatars/avatar_3.png',
-        createdAt: 1555016400000,
-        email: 'ekaterina.tankova@devias.io',
-        name: 'Ekaterina Tankova',
-        interviewDate: '1555016400000',
-        role: 'Software Engineer',
-        team: 'Eco-System Engineering'
+        "id": 1,
+        "candidateName": "Nimal Dabare",
+        "candidateEmailAddress": null,
+        "candidateId": "int_001",
+        "position": "Manager",
+        "division": "HR",
+        "scheduledDate": "2019-06-20T00:00:01.000+00:00",
+        "isCompleted": 1,
+        "result": 0.0
     },
     {
-        id: uuid(),
-        address: {
-            country: 'USA',
-            state: 'Bristow',
-            city: 'Iowa',
-            street: '1865  Pleasant Hill Road'
-        },
-        avatarUrl: '/static/images/avatars/avatar_4.png',
-        createdAt: 1555016400000,
-        email: 'cao.yu@devias.io',
-        name: 'Cao Yu',
-        interviewDate: '23-12-2020',
-        schedualedTime: '10.00AM',
-        role: 'Software Engineer',
-        team: 'Eco-System Engineering'
-    },
+        "id": 2,
+        "candidateName": "Nimal Dabare",
+        "candidateEmailAddress": null,
+        "candidateId": "int_001",
+        "position": "Manager",
+        "division": "HR",
+        "scheduledDate": "2019-06-20T00:00:01.000+00:00",
+        "isCompleted": 1,
+        "result": 0.0
+    }
 ];

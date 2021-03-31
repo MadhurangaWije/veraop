@@ -18,27 +18,7 @@ const styles = (theme) => ({
     },
 });
 
-
-const customers = [
-    {
-        id: '123',
-        address: {
-            country: 'USA',
-            state: 'West Virginia',
-            city: 'Parkersburg',
-            street: '2849 Fulton Street'
-        },
-        avatarUrl: '/static/images/avatars/avatar_3.png',
-        createdAt: 1555016400000,
-        email: 'ekaterina.tankova@devias.io',
-        name: 'Ekaterina Tankova',
-        interviewDate: '21-12-2020',
-        role: 'Software Engineer',
-        team: 'Eco-System Engineering'
-    },
-];
-
-const GET_INTERVIEWS_URL = 'http://demo3190284.mockable.io/getInterviews'
+const GET_INTERVIEWS_URL = 'http://localhost:9090/getCompletedInterviews'
 
 class InterviewFeedback extends Component {
 
@@ -50,17 +30,14 @@ class InterviewFeedback extends Component {
         }
     }
     componentDidMount() {
-        console.log('hiiiiiiiiiii loading')
         this.fetchCustomers();
-        this.timer = setInterval(() => this.fetchCustomers(), 5000);
     }
-
 
     fetchCustomers = (() => {
         fetch(GET_INTERVIEWS_URL)
             .then((response) => response.json())
             .then((result) => {
-                this.setState({ customers: customers });
+                this.setState({ customers: result });
             }).catch((e) => {
                 console.log(e);
             });
