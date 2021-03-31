@@ -1,0 +1,543 @@
+import React, { useEffect, useState } from 'react';
+import moment from 'moment';
+import AWS from 'aws-sdk';
+
+import clsx from 'clsx';
+import {
+  makeStyles,
+  Card,
+  CardHeader,
+  Divider,
+  Grid,
+  CardContent,
+  TextField,
+  Container,
+  Box,
+  Button,
+  ThemeProvider,
+  createMuiTheme
+} from '@material-ui/core';
+import Page from 'src/components/Page';
+import { Link } from 'react-router-dom';
+import { red ,green, orange } from '@material-ui/core/colors';
+import axios from 'axios';
+import { useLocation } from 'react-router-dom'
+
+const useStyles = makeStyles(() => ({
+  root: {}
+}));
+
+const RequestDetailView = (className, ...rest) => {
+  const classes = useStyles();
+  const [applicationStatus, setApplicationStatus] = useState("PENDING")
+  const location = useLocation();
+  console.log(location.pathname.split("/"));
+  const [values, setValues] = useState({
+    vacancyId: '342131',
+    jobBand: 'Software Engineering',
+    team: 'Eco-System Engineering',
+    positions: 10,
+    status: 'PUBLISHED'
+  });
+
+  const [jobApplication, setJobApplication] = useState({});
+
+  useEffect(()=>{
+    axios.get(`http://localhost:9090/applications/${location.pathname.split("/")[3]}`)
+    .then(res=>{
+      console.log(res.data);
+      setJobApplication(res.data);
+      const status = res.data.status;
+      setApplicationStatus(status);
+    })
+    .catch(err=>{
+      console.log(err);
+    });
+  },[]);
+
+  const acceptButtonTheme = createMuiTheme({
+    palette: {
+      primary: green
+    }
+  });
+
+  const onHoldButtonTheme = createMuiTheme({
+    palette: {
+      primary: orange
+    }
+  });
+
+  const rejectButtonTheme = createMuiTheme({
+    palette: {
+      primary: red
+    }
+  });
+
+  const hrAccept = ()=>{
+    axios.get(`http://localhost:9090/applications/${location.pathname.split("/")[3]}/status?status=HR_ACCEPTED`)
+    .then(res=>{
+      console.log(res);
+      setApplicationStatus("HR_ACCEPTED");
+    })
+    .catch(err=>{
+      console.log(err);
+    });
+  }
+
+  const hrReject = ()=>{
+    axios.get(`http://localhost:9090/applications/${location.pathname.split("/")[3]}/status?status=HR_REJECTED`)
+    .then(res=>{
+      console.log(res);
+      setApplicationStatus("HR_REJECTED");
+    })
+    .catch(err=>{
+      console.log(err);
+    });
+  }
+
+  const handleChange = (event) => {
+    setValues({
+      ...values,
+      [event.target.name]: event.target.value
+    });
+  };
+
+  let downloadCV = (fileName) => {
+    AWS.config.update(
+      {
+        accessKeyId: "AKIATSNMB5HNEQKON6MG",
+        secretAccessKey: "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",
+      }
+    );
+    let bucket = 'veraop-cv-bucket'
+    let key = fileName;
+    let s3 = new AWS.S3({ params: { Bucket: bucket }})
+    let params = {Bucket: bucket, Key: key}
+    s3.getObject(params, (err, data) => {
+      let blob=new Blob([data.Body], {type: data.ContentType});
+      let link=document.createElement('a');
+      link.href=window.URL.createObjectURL(blob);
+      // link.download=url;
+      link.click();
+    });
+  }
+
+  const scheduleInterview = () => {
+  }
+
+  return (
+    <Page
+      className={classes.root}
+      title="Job Application"
+    >
+      <Container lg={12}>
+        <Grid
+          item
+          lg={8}
+          md={6}
+          xs={12}
+        >
+          <form
+          >
+            <Card>
+              <CardHeader
+                subheader="Eco-System Engineering Team"
+                title="Software Engineer"
+              />
+              <h4 style={{textAlign:'right', marginRight:'10px'}}>Status: {applicationStatus}</h4>
+              <Divider />
+              <CardContent>
+                <Grid container spacing={3}>
+                  <Grid
+                    item
+                    md={6}
+                    xs={12}
+                  >
+                    <Card>
+                        <CardHeader title="Personal Information"/>
+                    </Card>
+
+                  </Grid>
+
+                  <Grid
+                    item
+                    md={6}
+                    xs={12}
+                  >
+                    <TextField
+                      fullWidth
+                      disabled
+                      name="firstName"
+                      value={jobApplication.firstName}
+                      onChange={(e) => setValues({
+                        ...values,
+                        firstName: e.target.value
+                      })}
+                      required
+                      variant="outlined"
+                    />
+                    <TextField
+                      disabled
+                      fullWidth
+                      value={jobApplication.lastName}
+                      name="lastName"
+                      onChange={(e) => setValues({
+                        ...values,
+                        firstName: e.target.value
+                      })}
+                      required
+                      variant="outlined"
+                    />
+                    <TextField
+                      disabled
+                      fullWidth
+                      value={jobApplication.email}
+                      name="email"
+                      onChange={(e) => setValues({
+                        ...values,
+                        firstName: e.target.value
+                      })}
+                      required
+                      variant="outlined"
+                    />
+                    <TextField
+                      disabled
+                      fullWidth
+                      value={jobApplication.mobileNumber}
+                      name="mobileNumber"
+                      onChange={(e) => setValues({
+                        ...values,
+                        firstName: e.target.value
+                      })}
+                      required
+                      variant="outlined"
+                    />
+                    <TextField
+                      disabled
+                      fullWidth
+                      name="address"
+                      value={jobApplication.address}
+                      onChange={(e) => setValues({
+                        ...values,
+                        firstName: e.target.value
+                      })}
+                      required
+                      variant="outlined"
+                    />
+                    <TextField
+                      disabled
+                      fullWidth
+                      name="linkedinOrBlog"
+                      value={jobApplication.linkedInOrBlog}
+                      onChange={(e) => setValues({
+                        ...values,
+                        firstName: e.target.value
+                      })}
+                      required
+                      variant="outlined"
+                    />
+                    <TextField
+                      disabled
+                      fullWidth
+                      value={jobApplication.openSourceContributions}
+                      name="openSourceContributions"
+                      onChange={(e) => setValues({
+                        ...values,
+                        firstName: e.target.value
+                      })}
+                      required
+                      variant="outlined"
+                    />
+                    <TextField
+                      disabled
+                      fullWidth
+                      value={jobApplication.totalYearsOfWorkExperience}
+                      name="totalWorkExperience"
+                      onChange={(e) => setValues({
+                        ...values,
+                        firstName: e.target.value
+                      })}
+                      required
+                      variant="outlined"
+                    />
+                  </Grid>
+                  
+                </Grid>
+                <Divider/>
+                <Grid container spacing={3}>
+                  <Grid
+                    item
+                    md={6}
+                    xs={12}
+                  >
+                    <Card>
+                        <CardHeader title="Educational Qualifications"/>
+                    </Card>
+
+                  </Grid>
+
+                  <Grid
+                    item
+                    md={6}
+                    xs={12}
+                  >
+                    <TextField
+                      disabled
+                      fullWidth
+                      value={jobApplication.highestEduQualification}
+                      name="educationalQualification"
+                      onChange={(e) => setValues({
+                        ...values,
+                        firstName: e.target.value
+                      })}
+                      required
+                      variant="outlined"
+                    />
+                    <TextField
+                      disabled
+                      fullWidth
+                      value={jobApplication.degree}
+                      name="lastName"
+                      onChange={(e) => setValues({
+                        ...values,
+                        firstName: e.target.value
+                      })}
+                      required
+                      variant="outlined"
+                    />
+                    <TextField
+                      disabled
+                      fullWidth
+                      value={jobApplication.university}
+                      name="university"
+                      onChange={(e) => setValues({
+                        ...values,
+                        firstName: e.target.value
+                      })}
+                      required
+                      variant="outlined"
+                    />
+                    <TextField
+                      disabled
+                      fullWidth
+                      value={jobApplication.yearOfGraduation}
+                      name="mobileNumber"
+                      onChange={(e) => setValues({
+                        ...values,
+                        firstName: e.target.value
+                      })}
+                      required
+                      variant="outlined"
+                    />
+                  </Grid>
+                </Grid>
+                <Divider/>
+                <Grid container spacing={3}>
+                  <Grid
+                    item
+                    md={6}
+                    xs={12}
+                  >
+                    <Card>
+                        <CardHeader title="Details of Work Experience"/>
+                    </Card>
+
+                  </Grid>
+
+                  <Grid
+                    item
+                    md={6}
+                    xs={12}
+                  >
+                    <TextField
+                      disabled
+                      fullWidth
+                      value={jobApplication.currentDesignation}
+                      name="currentDesignation"
+                      onChange={(e) => setValues({
+                        ...values,
+                        firstName: e.target.value
+                      })}
+                      required
+                      variant="outlined"
+                    />
+                    <TextField
+                      disabled
+                      fullWidth
+                      value={jobApplication.companyName}
+                      name="companyName"
+                      onChange={(e) => setValues({
+                        ...values,
+                        firstName: e.target.value
+                      })}
+                      required
+                      variant="outlined"
+                    />
+                    <TextField
+                      disabled
+                      fullWidth
+                      value={jobApplication.workDuration}
+                      name="workDuration"
+                      onChange={(e) => setValues({
+                        ...values,
+                        firstName: e.target.value
+                      })}
+                      required
+                      variant="outlined"
+                    />
+                  </Grid>
+                </Grid>
+                <Divider/>
+                <Grid container spacing={3}>
+                  <Grid
+                    item
+                    md={6}
+                    xs={12}
+                  >
+                    <Card>
+                        <CardHeader title="Publications"/>
+                    </Card>
+
+                  </Grid>
+
+                  <Grid
+                    item
+                    md={6}
+                    xs={12}
+                  >
+                    <TextField
+                      fullWidth
+                      multiline
+                      disabled
+                      rows={5}
+                      value={jobApplication.publications}
+                      name="publications"
+                      onChange={(e) => setValues({
+                        ...values,
+                        firstName: e.target.value
+                      })}
+                      variant="outlined"
+                    />
+                  </Grid> 
+                </Grid>
+                <Grid container spacing={3}>
+                  <Grid
+                    item
+                    md={6}
+                    xs={12}
+                  >
+                    <Card>
+                        <CardHeader title="Achievements"/>
+                    </Card>
+
+                  </Grid>
+
+                  <Grid
+                    item
+                    md={6}
+                    xs={12}
+                  >
+                    <TextField
+                      fullWidth
+                      multiline
+                      disabled
+                      rows={5}
+                      value={jobApplication.achievements}
+                      name="achievements"
+                      onChange={(e) => setValues({
+                        ...values,
+                        firstName: e.target.value
+                      })}
+                      variant="outlined"
+                    />
+                  </Grid> 
+                </Grid>
+                <Divider/>
+                <Grid container spacing={3}>
+                  <Grid
+                    item
+                    md={6}
+                    xs={12}
+                  >
+                      <Card>
+                          <CardHeader title="CV"/>
+                      </Card>
+                  </Grid>
+
+                  <Grid
+                    item
+                    md={6}
+                    xs={12}
+                  >
+                    <Box marginTop={1}>
+                      <Button
+                          color="secondary"
+                          variant="contained"
+                          onClick={()=>downloadCV(jobApplication.fileName)}
+                      >
+                          View
+                      </Button>
+                    </Box>
+                  </Grid> 
+                </Grid>
+              </CardContent>
+              <Divider />
+
+
+
+              <Box
+                display="flex"
+                justifyContent="flex-end"
+                p={2}
+              >
+                <ThemeProvider theme={acceptButtonTheme} >
+                  <Box marginRight={2}>
+                    <Button
+                      color="primary"
+                      variant="contained"
+                      onClick={hrAccept}
+                      disabled={applicationStatus==="HR_ACCEPTED"}
+                    >
+                      Accept
+                    </Button>
+                  </Box>
+                </ThemeProvider>
+{/* 
+                <ThemeProvider theme={onHoldButtonTheme} >
+                  <Box marginRight={2}>
+                    <Button
+                      color="primary"
+                      variant="contained"
+                      onClick={scheduleInterview}
+                    >
+                      On Hold
+                    </Button>
+                  </Box>
+                </ThemeProvider> */}
+
+                <ThemeProvider theme={rejectButtonTheme} >
+                  <Box marginRight={2}>
+                    <Button
+                      color="primary"
+                      variant="contained"
+                      onClick={hrReject}
+                    >
+                      Reject
+                    </Button>
+                  </Box>
+                </ThemeProvider>
+              
+              </Box>
+
+              <Divider />
+            </Card>
+          </form>
+        </Grid>
+      </Container>
+    </Page>
+  );
+};
+
+RequestDetailView.propTypes = {};
+
+export default RequestDetailView;

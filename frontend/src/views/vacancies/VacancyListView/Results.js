@@ -95,22 +95,19 @@ const Results = ({ className, customers, ...rest }) => {
                   />
                 </TableCell>
                 <TableCell>
-                  Name
+                  Vacancy ID
                 </TableCell>
                 <TableCell>
-                  Role
+                  Job Band
                 </TableCell>
                 <TableCell>
                   Team
                 </TableCell>
                 <TableCell>
-                  Phone
+                  Positions
                 </TableCell>
                 <TableCell>
-                  Applied on
-                </TableCell>
-                <TableCell>
-                  Profile/Screening
+                  Generated URL
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -129,40 +126,19 @@ const Results = ({ className, customers, ...rest }) => {
                     />
                   </TableCell>
                   <TableCell>
-                    <Box
-                      alignItems="center"
-                      display="flex"
-                    >
-                      <Avatar
-                        className={classes.avatar}
-                        src={customer.avatarUrl}
-                      >
-                        {getInitials(customer.name)}
-                      </Avatar>
-                      <Typography
-                        color="textPrimary"
-                        variant="body1"
-                      >
-                        {customer.name}
-                      </Typography>
-                    </Box>
+                    {customer.id}
                   </TableCell>
                   <TableCell>
-                    {customer.vacancy.jobBand}
+                    {customer.jobBand}
                   </TableCell>
                   <TableCell>
-                    {customer.vacancy.team}
+                    {customer.team}
                   </TableCell>
                   <TableCell>
-                    {customer.mobileNumber}
+                    {customer.positions}
                   </TableCell>
                   <TableCell>
-                    {moment(customer.createdAt).format('DD/MM/YYYY')}
-                  </TableCell>
-                  <TableCell>
-                    <Link to={customer.id.toString()}>
-                      View
-                    </Link>
+                    http://localhost:3000/apply/{customer.id}
                   </TableCell>
                 </TableRow>
               ))}

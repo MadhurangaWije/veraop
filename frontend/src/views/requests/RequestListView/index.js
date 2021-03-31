@@ -10,6 +10,7 @@ import Toolbar from './Toolbar';
 import data from './data';
 import axios from 'axios';
 
+
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.background.dark,
@@ -19,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const CustomerListView = () => {
+const CandidateRequestListView = () => {
   const classes = useStyles();
   const [customers, setCustomers] = useState([]);
 
@@ -27,7 +28,7 @@ const CustomerListView = () => {
     axios.get("http://localhost:9090/applications")
     .then(val=>{
       console.log(val.data);
-      const filteredRequestList = val.data.filter(request=> (request.status!=="PENDING" && request.status!=="REJECTED") );
+      const filteredRequestList = val.data.filter(request=>request.status==="PENDING");
       setCustomers(filteredRequestList);
     });
   }, []);
@@ -47,4 +48,4 @@ const CustomerListView = () => {
   );
 };
 
-export default CustomerListView;
+export default CandidateRequestListView;

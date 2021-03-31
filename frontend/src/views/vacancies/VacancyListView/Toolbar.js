@@ -12,15 +12,10 @@ import {
   makeStyles
 } from '@material-ui/core';
 import { Search as SearchIcon } from 'react-feather';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
-  root: {},
-  importButton: {
-    marginRight: theme.spacing(1)
-  },
-  exportButton: {
-    marginRight: theme.spacing(1)
-  }
+  root: {}
 }));
 
 const Toolbar = ({ className, ...rest }) => {
@@ -34,7 +29,16 @@ const Toolbar = ({ className, ...rest }) => {
       <Box
         display="flex"
         justifyContent="flex-end"
+        mt={3}
       >
+        <Button
+          color="primary"
+          variant="contained"
+        >
+          <Link style={{color:'white'}} to={"new"}>
+            Create Vacancy
+          </Link>
+        </Button>
       </Box>
       <Box mt={3}>
         <Card>
@@ -54,7 +58,7 @@ const Toolbar = ({ className, ...rest }) => {
                     </InputAdornment>
                   )
                 }}
-                placeholder="Search Candidate"
+                placeholder="Search Vacancy"
                 variant="outlined"
               />
             </Box>

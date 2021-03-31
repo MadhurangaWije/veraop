@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import clsx from 'clsx';
-import PropTypes from 'prop-types';
+import PropTypes, { string } from 'prop-types';
 import moment from 'moment';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import {
@@ -110,7 +110,7 @@ const Results = ({ className, customers, ...rest }) => {
                   Applied on
                 </TableCell>
                 <TableCell>
-                  Profile/Screening
+                  Profile
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -143,7 +143,7 @@ const Results = ({ className, customers, ...rest }) => {
                         color="textPrimary"
                         variant="body1"
                       >
-                        {customer.name}
+                        {customer.firstName} {customer.lastName}
                       </Typography>
                     </Box>
                   </TableCell>

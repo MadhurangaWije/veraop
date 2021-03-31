@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import moment from 'moment';
 
 import clsx from 'clsx';
@@ -15,27 +15,21 @@ import {
   Button
 } from '@material-ui/core';
 import Page from 'src/components/Page';
-import { useLocation } from 'react-router-dom';
-import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles(() => ({
   root: {}
 }));
 
-const ScheduleInterview = (props) => {
+const VacancyDetailView = (className, ...rest) => {
   const classes = useStyles();
-  const location = useLocation();
-  console.log(location.pathname.split("/"));
   const [values, setValues] = useState({
-    firstName: 'Katarina',
-    lastName: 'Smith',
-    email: 'demo@devias.io',
-    phone: '',
-    state: 'Alabama',
-    country: 'USA'
+    vacancyId: '342131',
+    jobBand: 'Software Engineering',
+    team: 'Eco-System Engineering',
+    positions: 10,
+    status: 'PUBLISHED'
   });
-
-  console.log(props);
 
   const handleChange = (event) => {
     setValues({
@@ -43,19 +37,6 @@ const ScheduleInterview = (props) => {
       [event.target.name]: event.target.value
     });
   };
-
-  const [jobApplication, setJobApplication] = useState({});
-
-  useEffect(()=>{
-    axios.get(`http://localhost:9090/applications/${location.pathname.split("/")[3]}`)
-    .then(res=>{
-      console.log(res.data);
-      setJobApplication(res.data);
-    })
-    .catch(err=>{
-      console.log(err);
-    });
-  },[]);
 
   const ADD_SCHEDULE_INTERVIEW = 'http://localhost:9090/addScheduledInterviews';
 
@@ -94,7 +75,7 @@ const ScheduleInterview = (props) => {
             <Card>
               <CardHeader
                 subheader="The information can be edited"
-                title="Schedule Interview"
+                title="Vacancy Details"
               />
               <Divider />
               <CardContent>
@@ -106,40 +87,18 @@ const ScheduleInterview = (props) => {
                   >
                     <TextField
                       fullWidth
-                      disabled
-                      name="position"
-                      value={jobApplication.vacancy.jobBand}
+                      label="Job Band"
+                      name="jobBand"
                       onChange={(e) => setValues({
                         ...values,
-                        position: e.target.value
+                        jobBand: e.target.value
                       })}
                       required
                       variant="outlined"
                     >
-
                     </TextField>
                   </Grid>
-                  <Grid
-                    item
-                    md={6}
-                    xs={12}
-                  >
-                    <TextField
-                      id="datetime-local"
-                      label="Interview Time"
-                      type="datetime-local"
-                      name="time"
-                      defaultValue="2021-01-24T10:30"
-                      className={classes.textField}
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                      onChange={(e) => setValues({
-                        ...values,
-                        time: e.target.value
-                      })}
-                    />
-                  </Grid>
+                  
                 </Grid>
                 <Grid container spacing={3}>
                   <Grid item
@@ -147,18 +106,16 @@ const ScheduleInterview = (props) => {
                     xs={12}>
                     <TextField
                       fullWidth
-                      disabled
-                      value={jobApplication.vacancy.team}
-                      name="division"
+                      label="Team"
+                      name="team"
                       onChange={handleChange}
                       required
                       variant="outlined"
                       onChange={(e) => setValues({
                         ...values,
-                        division: e.target.value
+                        team: e.target.value
                       })}
                     >
-
                     </TextField>
                   </Grid>
 
@@ -170,35 +127,15 @@ const ScheduleInterview = (props) => {
                     xs={12}>
                     <TextField
                       fullWidth
-                      disabled
-                      value={`${jobApplication.firstName} ${jobApplication.lastName}`}
-                      name="candidateName"
+                      label="Positions"
+                      name="positions"
                       required
                       variant="outlined"
                       onChange={(e) => setValues({
                         ...values,
-                        candidateName: e.target.value
+                        position: e.target.value
                       })}
                     >
-                    </TextField>
-                  </Grid>
-
-                  <Grid item
-                    md={6}
-                    xs={12}>
-                    <TextField
-                      fullWidth
-                      disabled
-                      value={jobApplication.email}
-                      name="candidateEmailAddress"
-                      required
-                      variant="outlined"
-                      onChange={(e) => setValues({
-                        ...values,
-                        candidateEmailAddress: e.target.value
-                      })}
-                    >
-
                     </TextField>
                   </Grid>
                 </Grid>
@@ -209,34 +146,15 @@ const ScheduleInterview = (props) => {
                     xs={12}>
                     <TextField
                       fullWidth
-                      label="Add Interviewer Name"
-                      name="interviewerName"
+                      label="Status"
+                      name="status"
                       required
                       variant="outlined"
                       onChange={(e) => setValues({
                         ...values,
-                        interviewerName: e.target.value
+                        status: e.target.value
                       })}
                     >
-
-                    </TextField>
-                  </Grid>
-
-                  <Grid item
-                    md={6}
-                    xs={12}>
-                    <TextField
-                      fullWidth
-                      label="Add Interviewer Email"
-                      name="interviewerEmailAddress"
-                      required
-                      variant="outlined"
-                      onChange={(e) => setValues({
-                        ...values,
-                        interviewerEmailAddress: e.target.value
-                      })}
-                    >
-
                     </TextField>
                   </Grid>
                 </Grid>
@@ -252,8 +170,28 @@ const ScheduleInterview = (props) => {
                   variant="contained"
                   onClick={scheduleInterview}
                 >
-                  Schedule Interview
+                  Save
                 </Button>
+              </Box>
+              <Box
+                display="flex"
+                justifyContent="flex-start"
+                p={1}
+              >
+                <Button
+                  color="primary"
+                  variant="contained"
+                  onClick={scheduleInterview}
+                >
+                  Generate Link
+                </Button>
+                
+                <Link to={"https://www.google.com"} >
+                    <CardHeader
+                        title="https://www.google.com"
+                    />
+                </Link>
+                
               </Box>
               <Divider />
             </Card>
@@ -264,6 +202,6 @@ const ScheduleInterview = (props) => {
   );
 };
 
-ScheduleInterview.propTypes = {};
+VacancyDetailView.propTypes = {};
 
-export default ScheduleInterview;
+export default VacancyDetailView;

@@ -31,11 +31,6 @@ const Toolbar = ({ className, ...rest }) => {
       className={clsx(classes.root, className)}
       {...rest}
     >
-      <Box
-        display="flex"
-        justifyContent="flex-end"
-      >
-      </Box>
       <Box mt={3}>
         <Card>
           <CardContent>
@@ -54,7 +49,7 @@ const Toolbar = ({ className, ...rest }) => {
                     </InputAdornment>
                   )
                 }}
-                placeholder="Search Candidate"
+                placeholder="Search Candidate Request"
                 variant="outlined"
               />
             </Box>

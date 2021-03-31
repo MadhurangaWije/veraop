@@ -34,7 +34,14 @@ const Toolbar = ({ className, ...rest }) => {
       <Box
         display="flex"
         justifyContent="flex-end"
+        mt={3}
       >
+        <Button
+          color="primary"
+          variant="contained"
+        >
+          Add Job Role
+        </Button>
       </Box>
       <Box mt={3}>
         <Card>
@@ -54,7 +61,7 @@ const Toolbar = ({ className, ...rest }) => {
                     </InputAdornment>
                   )
                 }}
-                placeholder="Search Candidate"
+                placeholder="Search Job Band"
                 variant="outlined"
               />
             </Box>

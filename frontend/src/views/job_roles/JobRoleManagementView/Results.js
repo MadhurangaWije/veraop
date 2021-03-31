@@ -95,22 +95,13 @@ const Results = ({ className, customers, ...rest }) => {
                   />
                 </TableCell>
                 <TableCell>
-                  Name
+                  Job Band
                 </TableCell>
                 <TableCell>
-                  Role
+                  Title
                 </TableCell>
                 <TableCell>
-                  Team
-                </TableCell>
-                <TableCell>
-                  Phone
-                </TableCell>
-                <TableCell>
-                  Applied on
-                </TableCell>
-                <TableCell>
-                  Profile/Screening
+                  Job Description
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -129,40 +120,13 @@ const Results = ({ className, customers, ...rest }) => {
                     />
                   </TableCell>
                   <TableCell>
-                    <Box
-                      alignItems="center"
-                      display="flex"
-                    >
-                      <Avatar
-                        className={classes.avatar}
-                        src={customer.avatarUrl}
-                      >
-                        {getInitials(customer.name)}
-                      </Avatar>
-                      <Typography
-                        color="textPrimary"
-                        variant="body1"
-                      >
-                        {customer.name}
-                      </Typography>
-                    </Box>
+                    {customer.band}
                   </TableCell>
                   <TableCell>
-                    {customer.vacancy.jobBand}
+                    {customer.title}
                   </TableCell>
                   <TableCell>
-                    {customer.vacancy.team}
-                  </TableCell>
-                  <TableCell>
-                    {customer.mobileNumber}
-                  </TableCell>
-                  <TableCell>
-                    {moment(customer.createdAt).format('DD/MM/YYYY')}
-                  </TableCell>
-                  <TableCell>
-                    <Link to={customer.id.toString()}>
-                      View
-                    </Link>
+                    <Link to={""}>View</Link>
                   </TableCell>
                 </TableRow>
               ))}

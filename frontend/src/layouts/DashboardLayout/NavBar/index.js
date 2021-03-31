@@ -27,6 +27,8 @@ import QuestionAnswerOutlinedIcon from '@material-ui/icons/QuestionAnswerOutline
 import SettingsOutlinedIcon from '@material-ui/icons/SettingsOutlined';
 import PeopleAltOutlinedIcon from '@material-ui/icons/PeopleAltOutlined';
 import DashboardOutlinedIcon from '@material-ui/icons/DashboardOutlined';
+import WorkOutlineIcon from '@material-ui/icons/WorkOutline';
+import AssistantOutlinedIcon from '@material-ui/icons/AssistantOutlined';
 import NavItem from './NavItem';
 
 const user = {
@@ -42,7 +44,17 @@ const items = [
     title: 'Dashboard'
   },
   {
-    href: '/app/customers',
+    href: '/app/job_roles',
+    icon: WorkOutlineIcon,
+    title: 'Job Roles'
+  },
+  {
+    href: '/app/vacancies',
+    icon: AssistantOutlinedIcon,
+    title: 'Vacancies'
+  },
+  {
+    href: '/app/candidates',
     icon: PeopleAltOutlinedIcon,
     title: 'Candidates'
   },
@@ -57,7 +69,7 @@ const items = [
     title: 'Interview Feedback'
   },
   {
-    href: '/app/customers',
+    href: '/app/requests',
     icon: AssignmentIndOutlinedIcon,
     title: 'Requests'
   },
@@ -76,41 +88,6 @@ const items = [
     icon: SettingsOutlinedIcon,
     title: 'Administration'
   },
-  // {
-  //   href: '/app/customers',
-  //   icon: UsersIcon,
-  //   title: 'Customers'
-  // },
-  // {
-  //   href: '/app/products',
-  //   icon: ShoppingBagIcon,
-  //   title: 'Products'
-  // },
-  // {
-  //   href: '/app/account',
-  //   icon: UserIcon,
-  //   title: 'Account'
-  // },
-  // {
-  //   href: '/app/settings',
-  //   icon: SettingsIcon,
-  //   title: 'Settings'
-  // },
-  // {
-  //   href: '/login',
-  //   icon: LockIcon,
-  //   title: 'Login'
-  // },
-  // {
-  //   href: '/register',
-  //   icon: UserPlusIcon,
-  //   title: 'Register'
-  // },
-  // {
-  //   href: '/404',
-  //   icon: AlertCircleIcon,
-  //   title: 'Error'
-  // }
 ];
 
 const useStyles = makeStyles(() => ({
