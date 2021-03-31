@@ -30,6 +30,7 @@
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.56",
     "@material-ui/styles": "^4.10.0",
+    "amazon-chime-sdk-js": "2.6.2",
     "aws-amplify": "^3.3.26",
     "aws-sdk": "^2.875.0",
     "axios": "^0.21.1",

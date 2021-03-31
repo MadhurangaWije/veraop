@@ -157,7 +157,7 @@ const CandidateProfileView = (className, ...rest) => {
   }
 
   const [jobApplication, setJobApplication] = useState({});
-  const [feedback, setFeedback] = useState({});
+  const [feedbackRecieved, setFeedbackRecieved] = useState({name:'', designation: '', feedback:'sss', applicationId:''});
 
   
 
@@ -178,7 +178,9 @@ const CandidateProfileView = (className, ...rest) => {
     axios.get(`http://localhost:9090/feedbacks/application/${location.pathname.split("/")[3]}`)
     .then(res=>{
       console.log(res.data);
-      setFeedback(res.data[0]);
+      if(res.data[0].feedback!==null){
+        setFeedbackRecieved(res.data[0]);
+      }
     })
     .catch(err=>{
       console.log(err);
@@ -204,7 +206,7 @@ const CandidateProfileView = (className, ...rest) => {
                 subheader="Eco-System Engineering Team"
                 title="Software Engineer"
               />
-              <h4>{applicationStatus}</h4>
+              <h4 style={{textAlign:'right', marginRight:'10px'}}>Status: {applicationStatus}</h4>
               <Divider />
               <CardContent>
                 <Grid container spacing={3}>
@@ -581,7 +583,7 @@ const CandidateProfileView = (className, ...rest) => {
                         label="Name"
                         name="name"
                         disabled
-                        value={feedback.name}
+                        value={feedbackRecieved.name}
                         onChange={(e) => setValues({
                           ...values,
                           reviewer1Email: e.target.value
@@ -598,7 +600,7 @@ const CandidateProfileView = (className, ...rest) => {
                         label="Designation"
                         name="designation"
                         disabled
-                        value={feedback.designation}
+                        value={feedbackRecieved.designation}
                         onChange={(e) => setValues({
                           ...values,
                           reviewer1Email: e.target.value
@@ -617,7 +619,7 @@ const CandidateProfileView = (className, ...rest) => {
                             disabled
                             multiline
                             rows={5}
-                            value={feedback.feedback}
+                            value={feedbackRecieved.feedback}
                             name="reviewer1Feedback"
                             onChange={(e) => setValues({
                               ...values,

@@ -105,6 +105,7 @@ const JobApplyView = (className, ...rest) => {
       yearOfGraduation: values.yearOfGraduation,
       currentDesignation: values.currentDesignation,
       companyName: values.companyName,
+      status: "PENDING",
       workDuration: values.workDuration,
       publications: values.publications,
       achievements: values.achievements,

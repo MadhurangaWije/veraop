@@ -17,7 +17,9 @@ public class MeetingService {
 
     String getMeeting() {
         AmazonChime chime = AmazonChimeClientBuilder
-                .standard().build();
+                .standard()
+                .withRegion(Regions.US_EAST_1)
+                .build();
 
 //    String meetingId = "abc123";
 //    String externalId = "extabc123";
@@ -70,7 +72,7 @@ public class MeetingService {
     public MeetingDTO createNewMeetingInfo() {
 
         AmazonChime chime = AmazonChimeClientBuilder
-                .standard().build();
+                .standard().withRegion(Regions.US_EAST_1).build();
 
         CreateMeetingRequest createMeetingRequest = new CreateMeetingRequest();
 

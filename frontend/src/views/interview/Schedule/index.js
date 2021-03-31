@@ -45,7 +45,7 @@ const ScheduleInterview = (props) => {
     });
   };
 
-  const [jobApplication, setJobApplication] = useState({});
+  const [jobApplication, setJobApplication] = useState(null);
 
   useEffect(()=>{
     axios.get(`http://localhost:9090/applications/${location.pathname.split("/")[3]}`)
@@ -62,11 +62,11 @@ const ScheduleInterview = (props) => {
 
   const scheduleInterview = () => {
     const data = {
-      position: values.position,
-      division: values.division,
+      position: jobApplication.vacancy.jobBand,
+      division: jobApplication.vacancy.team,
       scheduledDate: moment(values.time).format('YYYY-MM-DD HH:mm:ss'),
-      candidateName: values.candidateName,
-      candidateEmailAddress: values.candidateEmailAddress,
+      candidateName: `${jobApplication.firstName} ${jobApplication.lastName}`,
+      candidateEmailAddress: jobApplication.email,
       interviewerName: values.interviewerName,
       interviewerEmailAddress: values.interviewerEmailAddress
     }
@@ -113,7 +113,7 @@ const ScheduleInterview = (props) => {
                       fullWidth
                       disabled
                       name="position"
-                      value={jobApplication.vacancy.jobBand}
+                      value={jobApplication?jobApplication.vacancy.jobBand:""} 
                       onChange={(e) => setValues({
                         ...values,
                         position: e.target.value
@@ -153,7 +153,7 @@ const ScheduleInterview = (props) => {
                     <TextField
                       fullWidth
                       disabled
-                      value={jobApplication.vacancy.team}
+                      value={jobApplication?jobApplication.vacancy.team:""}
                       name="division"
                       required
                       variant="outlined"
@@ -175,7 +175,7 @@ const ScheduleInterview = (props) => {
                     <TextField
                       fullWidth
                       disabled
-                      value={`${jobApplication.firstName} ${jobApplication.lastName}`}
+                      value={jobApplication?`${jobApplication.firstName} ${jobApplication.lastName}`:""}
                       name="candidateName"
                       required
                       variant="outlined"
@@ -193,7 +193,7 @@ const ScheduleInterview = (props) => {
                     <TextField
                       fullWidth
                       disabled
-                      value={jobApplication.email}
+                      value={jobApplication?jobApplication.email:""}
                       name="candidateEmailAddress"
                       required
                       variant="outlined"

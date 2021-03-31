@@ -19,6 +19,7 @@ import {
 } from '@material-ui/core';
 import getInitials from 'src/utils/getInitials';
 import { Link } from 'react-router-dom';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -112,7 +113,7 @@ const Results = ({ className, customers, ...rest }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {customers.slice(0, limit).map((customer) => (
+              {customers.length!==0?customers.slice(0, limit).map((customer) => (
                 <TableRow
                   hover
                   key={customer.id}
@@ -141,7 +142,7 @@ const Results = ({ className, customers, ...rest }) => {
                     http://localhost:3000/apply/{customer.id}
                   </TableCell>
                 </TableRow>
-              ))}
+              )): <CircularProgress />}
             </TableBody>
           </Table>
         </Box>

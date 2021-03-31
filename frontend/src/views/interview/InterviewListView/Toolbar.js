@@ -35,13 +35,7 @@ const Toolbar = ({ className, ...rest }) => {
         display="flex"
         justifyContent="flex-end"
       >
-        <Button
-          color="primary"
-          variant="contained"
-          href="/app/scheduleInterview"
-        >
-          Schedule Interview
-        </Button>
+
       </Box>
       <Box mt={3}>
         <Card>

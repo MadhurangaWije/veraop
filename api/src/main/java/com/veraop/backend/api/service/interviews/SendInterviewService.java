@@ -76,7 +76,7 @@ public class SendInterviewService {
             String formattedDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
             AmazonSimpleEmailService emailClient = AmazonSimpleEmailServiceClientBuilder.standard()
-                    .withRegion(Regions.US_EAST_1)
+                    .withRegion(Regions.US_EAST_2)
                     .build();
 
             Destination destination = new Destination(List.of(candidateEmail));
@@ -97,7 +97,7 @@ public class SendInterviewService {
     public void sendOnboardInvitation(String candidateName, String candidateEmail, String candidateId) {
 
         AmazonSimpleEmailService emailClient = AmazonSimpleEmailServiceClientBuilder.standard()
-                .withRegion(Regions.US_EAST_1)
+                .withRegion(Regions.US_EAST_2)
                 .build();
 
         Destination destination = new Destination(List.of(candidateEmail));
