@@ -1,5 +1,7 @@
 package com.veraop.backend.api.model;
 
+import com.veraop.backend.api.dto.OnboardResponseDataDTO;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -39,5 +41,21 @@ public class OnboardDetail {
         this.accountNo = accountNo;
         this.userId = userId;
         this.emailAddress = emailAddress;
+    }
+
+    public OnboardResponseDataDTO toDTO() {
+        OnboardResponseDataDTO dto = new OnboardResponseDataDTO();
+        dto.setId(this.id);
+        dto.setFirstName(this.firstName);
+        dto.setLastName(this.lastName);
+        dto.setAddress(this.address);
+        dto.setBank(this.bank);
+        dto.setBranch(this.branch);
+        dto.setBranchCode(this.branchCode);
+        dto.setAccountNo(this.accountNo);
+        dto.setUserId(this.userId);
+        dto.setEmailAddress(this.emailAddress);
+
+        return dto;
     }
 }

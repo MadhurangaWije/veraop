@@ -2,9 +2,11 @@ package com.veraop.backend.api.service.onboard;
 
 import com.veraop.backend.api.dto.BankDetailDTO;
 import com.veraop.backend.api.dto.OnboardRequestDataDTO;
+import com.veraop.backend.api.model.OnboardDetail;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.List;
 
 @Service
 public class OnboardHandlerService {
@@ -43,4 +45,13 @@ public class OnboardHandlerService {
         emailClient.sendEmail(request);
     }
 
+    public List<OnboardDetail> findAllOnboard() {
+
+        return database.findAllOnboard();
+    }
+
+    public OnboardDetail findOnboardDetailOf(String userId) {
+
+        return database.findOnboardDetailsOf(userId);
+    }
 }

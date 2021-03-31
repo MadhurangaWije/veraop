@@ -7,6 +7,7 @@ import com.veraop.backend.api.repo.OnboardDetailRepository;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 /**
  * A service class to manage functionality related to database operations related to onboard process.
@@ -43,5 +44,15 @@ public class DatabaseService {
         );
 
         onboardDetailRepository.save(onboardDetail);
+    }
+
+    public List<OnboardDetail> findAllOnboard() {
+
+        return onboardDetailRepository.findAll();
+    }
+
+    public OnboardDetail findOnboardDetailsOf(String userId) {
+
+        return onboardDetailRepository.findOneByUserId(userId);
     }
 }

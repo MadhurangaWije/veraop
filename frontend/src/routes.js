@@ -14,6 +14,7 @@ import InterviewListView from 'src/views/interview/InterviewListView';
 import ScheduleInterview from 'src/views/interview/Schedule';
 import InterviewFeedback from 'src/views/feedback';
 import Onboard from 'src/views/onboard/OnboardView';
+import OnboardListView from './views/onboard/OnboardListView';
 
 const routes = [
   {
@@ -28,6 +29,7 @@ const routes = [
       { path: 'interview', element: <InterviewListView /> },
       { path: 'feedback', element: <InterviewFeedback /> },
       { path: 'scheduleInterview', element: <ScheduleInterview /> },
+      { path: 'onboard', element: <OnboardListView /> },
       { path: '*', element: <Navigate to="/404" /> }
     ]
   },
