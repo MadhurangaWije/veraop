@@ -12,7 +12,7 @@ import java.io.IOException;
 @Service
 public class S3Service {
 
-    public static final String BUCKET_NAME = "onboard-info-bucket-gangster";
+    public static final String BUCKET_NAME = "veraop-onboard-info-bucket";
 
     public void uploadFile(String userId, MultipartFile file) throws IOException {
 

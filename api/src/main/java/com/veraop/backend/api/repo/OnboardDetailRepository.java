@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface OnboardDetailRepository extends JpaRepository<OnboardDetail, Long> {
+
+    OnboardDetail findOneByUserId(String userId);
 }
