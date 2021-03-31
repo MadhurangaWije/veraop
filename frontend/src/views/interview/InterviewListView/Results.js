@@ -20,6 +20,8 @@ import {
 } from '@material-ui/core';
 const { v4: uuidv4 } = require('uuid');
 const AWS = require('aws-sdk');
+const axios = require('axios');
+
 import {
   ConsoleLogger,
   DefaultDeviceController,
@@ -42,6 +44,9 @@ const Results = ({ className, customers, ...rest }) => {
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
+  const [meetingId, setMeetingId] = useState(0);
+  const [joinToken, setJoinToken] = useState(0);
+
 
 
 
@@ -87,36 +92,95 @@ const Results = ({ className, customers, ...rest }) => {
 
   const GET_CHIME_INFO = "http://localhost:9090/getChimeMeetingInfo";
 
-  const startMeeting = async () => {
-    const meeting = {};
-    const attendee = {}
-    fetch(GET_CHIME_INFO)
-      .then((response) => response.json())
-      .then((result) => {
-        meeting = result.meeting;
-        attendee = result.attendee;
-      }).catch((e) => {
-        console.log(e);
-      });
-    //chime related
-    const logger = new ConsoleLogger('ChimeMeetingLogs', LogLevel.INFO);
-    const deviceController = new DefaultDeviceController(logger);
-    const configuration = new MeetingSessionConfiguration(meeting, attendee);
-    const meetingSession = new DefaultMeetingSession(configuration, logger, deviceController);
+  const getChimeInfo = () => {
+    let meeting = {};
+    let attendee = {}
+    axios.get(GET_CHIME_INFO).then(resp => {
+      meeting = resp.data.meetingObject;
+      attendee = resp.data.attendeeObject;
+      startVideo(meeting, attendee);
+    });
 
+
+
+
+  }
+
+  const startVideo = async (meeting, attendee) => {
     try {
+      const meetingId = meeting.meetingId;
+      const joinToken = attendee.joinToken;
+      // this.setState({ meetingId: meetingId, joinToken: joinToken });
+      let clientId = '';
+      let isMeetingHost = '';
+      let requestPath = `join?clientId=${clientId}`;
+      if (!meetingId) {
+        isMeetingHost = true;
+      } else {
+        requestPath += `&meetingId=${meetingId}`;
+      }
+
+      if (isMeetingHost) {
+        // document.getElementById("meeting-link").innerText = window.location.href + "?meetingId=" + meetingId;
+      }
+
+      const configuration = new MeetingSessionConfiguration(
+        meeting,
+        attendee
+      );
+      const logger = new ConsoleLogger('ChimeMeetingLogs', LogLevel.INFO);
+      const deviceController = new DefaultDeviceController(logger);
+      window.meetingSession = new DefaultMeetingSession(
+        configuration,
+        logger,
+        deviceController
+      );
       const audioInputs = await meetingSession.audioVideo.listAudioInputDevices();
-      await meetingSession.audioVideo.chooseAudioInputDevice(audioInputs[0].deviceId);
-      console.log('audioInputs', audioInputs)
+      const videoInputs = await meetingSession.audioVideo.listVideoInputDevices();
+
+      await meetingSession.audioVideo.chooseAudioInputDevice(
+        audioInputs[0].deviceId
+      );
+      await meetingSession.audioVideo.chooseVideoInputDevice(
+        videoInputs[0].deviceId
+      );
+      const observer = {
+        videoTileDidUpdate: (tileState) => {
+          // Ignore a tile without attendee ID and other attendee's tile.
+          if (!tileState.boundAttendeeId) {
+            return;
+          }
+          updateTiles(meetingSession);
+        },
+      };
+      meetingSession.audioVideo.addObserver(observer);
+      const audioOutputElement = document.getElementById("chime-audio");
+      meetingSession.audioVideo.bindAudioElement(audioOutputElement);
+      meetingSession.audioVideo.start();
+      document.getElementById("meeting-id").innerText = meetingId
+      document.getElementById("join-token").innerText = joinToken;
+
     } catch (err) {
-      console.log('err', err)
-
-      // handle error - unable to acquire audio device perhaps due to permissions blocking
+      console.error(err);
     }
+  }
 
-    const audioOutputElement = document.getElementById('chime-audio');
-    meetingSession.audioVideo.bindAudioElement(audioOutputElement);
-    meetingSession.audioVideo.start();
+  const updateTiles = (meetingSession) => {
+    const tiles = meetingSession.audioVideo.getAllVideoTiles();
+    tiles.forEach(tile => {
+      let tileId = tile.tileState.tileId
+      var videoElement = document.getElementById("video-" + tileId);
+
+      if (!videoElement) {
+        videoElement = document.createElement("video");
+        videoElement.id = "video-" + tileId;
+        document.getElementById("video-list").append(videoElement);
+        meetingSession.audioVideo.bindVideoElement(
+          tileId,
+          videoElement
+        );
+      }
+    })
   }
 
 
@@ -154,6 +218,8 @@ const Results = ({ className, customers, ...rest }) => {
                   Schedualed Time
                 </TableCell>
                 <TableCell></TableCell>
+                <TableCell>Meeting Id</TableCell>
+                <TableCell>Join Token</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -198,11 +264,19 @@ const Results = ({ className, customers, ...rest }) => {
                     <Button
                       color="primary"
                       variant="contained"
-                      onClick={startMeeting}
+                      onClick={getChimeInfo}
                     >
-                      Start Meeting
+                      Create Meeting
                     </Button>
                     <audio id="chime-audio" display="none"></audio>
+                    <div id="video-list" width="100%" height="100%"></div>
+                    <div id='meeting-link'></div>
+                  </TableCell>
+                  <TableCell id="meeting-id">
+                    {/* The meeting id is {meetingId} and joinToken is {joinToken} */}
+                  </TableCell>
+                  <TableCell id="join-token">
+                    {/* The meeting id is {meetingId} and joinToken is {joinToken} */}
                   </TableCell>
                 </TableRow>
               ))}
@@ -219,7 +293,9 @@ const Results = ({ className, customers, ...rest }) => {
         rowsPerPage={limit}
         rowsPerPageOptions={[5, 10, 25]}
       />
+
     </Card>
+
   );
 };
 
